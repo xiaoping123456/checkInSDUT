@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--兼容IE-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--网页每隔5min自动刷新-->
+    <meta http-equiv="Refresh" content="300">
+    <title>山东理工大学入校信息核验系统</title>
+    <!--semantic-ui-->
+    <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+
+<!--主容器-->
+<div class="ui container">
+
+    <div><img class="ui fluid image" th:src="@{/img/top.jpg}"></div>
+
+    <!--导航部分-->
+    <div style="margin-top: 20px">
+        <div>
+            <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"
+                th:href="@{'/list/'+${adminId}}">今日入校详情</a>
+            <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"
+                th:href="@{'/filedToday/'+${adminId}}">今日审核未通过详情</a>
+            <a class="ui button" type="button" style="background-color: #54afea"
+               th:href="@{'/goNotSubmitInToday/'+${adminId}}">今日未提交名单</a>
+            <a class="ui button" type="button" style="float: right;background-color: #e593d4"
+                th:href="@{'/goListManager/'+${adminId}}">名单管理</a>
+        </div>
+        <div style="margin-top: 20px;display: flex;justify-content: space-between">
+            <div>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e;">历史数据详情
+                </a>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e">提交数据统计</a>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e">“到达或途径”统计</a>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e">历史数据可视化</a>
+            </div>
+            <div>
+                <h4 th:text=" '单位管理员姓名:'+${nickName} " style=""></h4>
+                <a class="ui button" type="button" style="float:right"
+                    th:href="@{/logout}">退出</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ui grid" style="margin-top: 0px">
+        <div class="four wide column">
+            当前位置：今日入校详情
+        </div>
+        <div class="twelve wide column">
+            <p th:text=" '总人数：'+${total}+' 人。未提交 '+${noSubmittedCount}+' 人，已提交 '+
+                        ${submittedCount}+' 人（审核未通过 '+${failedCount}+' 人）' "></p>
+        </div>
+    </div>
+
+    <div class="ui placeholder segment" id="app1">
+        <div class="col-md-12 column">
+            <input type="hidden" name="dep" th:value="${department.getAbbreviation()}">
+            <table class="ui celled structured table" style="font-size: 14px;text-align: center">
+
+                <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>健康码</th>
+                    <th>行程码</th>
+                    <th>核酸结果</th>
+                    <th>上传时间</th>
+                    <th>详情</th>
+                </tr>
+                </thead>
+
+                <tbody v-for="user in list">
+                <tr>
+                    <td rowspan="2">{{user.name}}</td>
+                    <td>{{user.healthTime}}<br>{{user.healthMessage}}<br>{{user.healthName}}<br>{{user.healthIdCard}}
+                    </td>
+                    <td>{{user.itineraryPhone}}<br>{{user.itineraryTime}}<br>{{user.itineraryMessage}}</td>
+                    <td>{{user.covid19Time}}<br>{{user.covid19Hospital}}<br>{{user.covid19Result}}<br>{{user.covid19Name}}<br>{{user.covid19IdCard}}
+                    </td>
+                    <td rowspan="2">{{user.dayTime}}</td>
+                    <td rowspan="2">
+                        <a class="ui blue large label" :href="'/list/jsjxy/detail/' + user.id">详情</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td name="health" :class="[user.healthInfo=='绿码'?'positive':'negative']">{{user.healthInfo}}</td>
+                    <td name="itinerary"
+                        :class="[(user.itineraryInfo=='行程码带*' || user.itineraryInfo=='识别异常')?'negative':'positive']">
+                        {{user.itineraryInfo}}
+                    </td>
+                    <td name="covid19" :class="[user.covid19Info=='阴性核酸检测小于48小时'?'positive':'negative']">
+                        {{user.covid19Info}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div style="display: flex;justify-content: flex-end;margin-top: 10px">
+                <el-pagination
+                        background
+                        layout="prev, pager, next,total"
+                        @current-change="currentChange"
+                        :total="total">
+                </el-pagination>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="ui segment" style="text-align: center" th:fragment="bottombar">
+        <p> &copy; 2022 . All Rights Reserved&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Designd
+            by 李雨阳&刘学伟&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;指导教师：王绍卿</p>
+    </div>
+
+
+</div>
+
+<!--<script type="text/javascript" src="/js/color.js"></script>-->
+<!--<script type="text/javascript" src="/js/disabled.js"></script>-->
+<script>
+    var app = new Vue({
+        el: "#app1",
+        data: {
+            list: [],
+            total: 0,
+            currentPage: 1,
+            size: 10
+        },
+        mounted() {
+            this.initList()
+        },
+        methods: {
+            initList() {
+                let path = window.location.pathname;
+                let department = path.split('/')[2];
+                axios.get('http://localhost:8080/getCurrentDayList?department=' + department + "&currentPage="
+                    + this.currentPage + "&size=" + this.size).then(resp => {
+                    // console.log(resp)
+                    this.list = resp.data.data;
+                    this.total = resp.data.total;
+                })
+            },
+            currentChange(page) {
+                this.currentPage = page;
+                this.initList();
+            }
+
+        }
+    })
+
+</script>
+</body>
+</html>

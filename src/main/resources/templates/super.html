@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--兼容IE-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--网页每隔5min自动刷新-->
+    <meta http-equiv="Refresh" content="300">
+    <title>山东理工大学入校信息核验系统</title>
+    <!--semantic-ui-->
+    <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<!--主容器-->
+<div class="ui container">
+
+    <div><img class="ui fluid image" th:src="@{/img/top.jpg}"></div>
+    <div style="display: flex;margin-top: 15px;justify-content: center">
+        <h2>超级管理员后台</h2>
+
+    </div>
+    <div style="display: flex;justify-content: flex-end">
+        <a class="ui button" type="button" style=""
+           th:href="@{/logout}">退出</a>
+    </div>
+
+    <div class="ui placeholder segment" id="app1">
+        <div style="display: flex;justify-content: space-between">
+            <p>提交连接eg：http://43.138.66.201:8080/goSubmit/标识码</p>
+            <el-button type="primary" @click="toAddAdmin" size="small">添加授权管理员</el-button>
+<!--            <a class="ui button" type="button" style="margin-right: 20px;background-color: #44cb3a"-->
+<!--                    th:href="@{/addAdmin.html}">添加授权管理员</a>-->
+        </div>
+        <!--表格展示-->
+        <div style="margin-top: 10px">
+            <el-table
+                    :data="allAdmin"
+                    border
+                    stripe
+                    style="width: 100%">
+                <el-table-column
+                        prop="id"
+                        label="标识码"
+                        width="130">
+                </el-table-column>
+                <el-table-column
+                        prop="departmentName"
+                        label="归属单位名称"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="nickName"
+                        label="单位管理员姓名"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="username"
+                        label="登录用户名"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="phone"
+                        label="手机号码"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        label="操作">
+                    <template slot-scope="scope">
+                        <el-button type="primary" size="small" icon="el-icon-edit"
+                                   @click="showUpdateView(scope.row)">修改</el-button>
+                        <el-button type="danger" size="small" icon="el-icon-delete-solid"
+                                   @click="deleteAdmin(scope.row)">删除</el-button>
+                        <el-button type="warning" size="small" icon="el-icon-s-tools"
+                                   @click="showResetView(scope.row)">重置密码</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+            <!--更新信息的对话框-->
+            <el-dialog
+                    title="修改信息"
+                    :visible.sync="dialogVisible"
+                    width="30%">
+                <div>
+                    <el-form ref="form" :model="admin" label-width="120px">
+                        <el-form-item label="归属单位名称:">
+                            <el-input v-model="admin.departmentName"></el-input>
+                        </el-form-item>
+                        <el-form-item label="单位管理员姓名:">
+                            <el-input v-model="admin.nickName"></el-input>
+                        </el-form-item>
+                        <el-form-item label="手机号码:">
+                            <el-input v-model="admin.phone"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="doUpdate">确认修改</el-button>
+                            <el-button type="warning" @click="dialogVisible = false">取消</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </el-dialog>
+
+            <!--重置密码的对话框-->
+            <el-dialog
+                    title="重置密码"
+                    :visible.sync="dialogVisibleForReset"
+                    width="30%">
+                <div>
+                    <el-input v-model="newPassword" placeholder="请输入新的密码..."></el-input>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisibleForReset = false">取 消</el-button>
+                    <el-button type="primary" @click="resetPassword">确 定</el-button>
+                </span>
+            </el-dialog>
+
+            <div style="display: flex;justify-content: flex-end;margin-top: 10px">
+                <el-pagination
+                        background
+                        layout="prev, pager, next,total"
+                        @current-change="currentChange"
+                        :total="total">
+                </el-pagination>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+
+<script>
+    var app = new Vue({
+        el:'#app1',
+        data:{
+            allAdmin:[],
+            total:0,
+            currentPage:1,
+            size:10,
+            dialogVisible:false,
+            dialogVisibleForReset:false,
+            admin:{
+                id:'',
+                departmentName:'',
+                nickName:'',
+                phone:''
+            },
+            newPassword:''
+        },
+        mounted(){
+            this.initList();
+        },
+        methods:{
+            toAddAdmin(){
+                window.open('http://localhost:8080/super/add')
+            },
+            initList(){
+                axios.get('http://localhost:8080/getAdmins?currentPage='+this.currentPage+"&size="+this.size).then(resp=>{
+                    if (resp){
+                        this.allAdmin=resp.data.data;
+                        this.total=resp.data.total;
+                    }
+                })
+            },
+            currentChange(page) {
+                this.currentPage = page;
+                this.initList();
+            },
+            deleteAdmin(data){
+                this.$confirm('此操作将永久删除该授权部门, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.delete('http://localhost:8080/super/deleteAdmin?id='+data.id).then(resp=>{
+                        if(resp.data==true){
+                            this.initList();
+                            this.$message.success('删除成功');
+                        }else{
+                            this.$message.success('删除失败');
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            showUpdateView(data){
+                this.dialogVisible=true;
+                // this.admin=data;
+                Object.assign(this.admin,data);
+            },
+            doUpdate(){
+                console.log(this.admin)
+                axios.post('http://localhost:8080/super/updateAdmin',this.admin).then(resp=>{
+                    if (resp){
+                        if(resp.data==true){
+                            this.$message.success('更新成功');
+                            this.initList();
+                            this.dialogVisible=false;
+                        }else{
+                            this.$message.error("更新失败");
+                        }
+                    }
+                })
+            },
+            showResetView(data){
+                this.admin=data
+                this.dialogVisibleForReset=true;
+            },
+            resetPassword(){
+                let params={};
+                let formData = new FormData();
+                formData.append("id",this.admin.id);
+                formData.append("newPassword",this.newPassword);
+                formData.forEach((value,key)=>{params[key]=value})
+                axios.post('http://localhost:8080/super/resetPassword',params).then(resp=>{
+                    if (resp.data==true){
+                        this.$message.success('密码重置成功');
+                        this.dialogVisibleForReset=false;
+                    }
+                })
+            }
+        }
+    })
+</script>
+
+</html>

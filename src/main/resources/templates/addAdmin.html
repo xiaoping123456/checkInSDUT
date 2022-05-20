@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--兼容IE-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--网页每隔5min自动刷新-->
+    <meta http-equiv="Refresh" content="300">
+    <title>山东理工大学入校信息核验系统</title>
+    <!--semantic-ui-->
+    <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+        .inputStyle {
+            margin-bottom: 10px;
+        }
+        .text {
+            text-align: right;
+            display: inline-block;
+            width: 150px
+        }
+        .input {
+            text-align: left;
+            display: inline-block
+        }
+    </style>
+</head>
+<body>
+<!--主容器-->
+<div class="ui container">
+    <div><img class="ui fluid image" th:src="@{/img/top.jpg}"></div>
+
+    <div style="text-align: center;margin-top: 20px">
+        <p style="text-align: right">超级管理员</p>
+        <div id="app1">
+            <div style="align: center">
+                <form th:action="@{/super/addAdmin}" method="post">
+                    <div>
+                        <div class="text">
+                            归属单位名称 ：
+                        </div>
+                        <div class="input">
+                            <el-input class="inputStyle" name="departmentName" v-model="form.departmentName"
+                                      size="small"
+                                      style="width: 300px"></el-input>
+                            <br>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="text">
+                            单位管理员姓名 ：
+                        </div>
+                        <div class="input">
+                            <el-input class="inputStyle" name="nickName" v-model="form.nickName" size="small"
+                                      style="width: 300px"></el-input>
+                            <br>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text">
+                            登录用户名 ：
+                        </div>
+                        <div class="input">
+                            <el-input class="inputStyle" name="username" v-model="form.username" size="small"
+                                      style="width: 300px"></el-input>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text">
+                            登录密码 ：
+                        </div>
+                        <div class="input">
+                            <el-input class="inputStyle" name="password" v-model="form.password" size="small"
+                                      style="width: 300px"></el-input>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text">
+                            手机号码 ：
+                        </div>
+                        <div class="input">
+                            <el-input class="inputStyle" name="phone" v-model="form.phone" size="small"
+                                      style="width: 300px"></el-input>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text">
+                            授权码 ：
+                        </div>
+                        <div class="input">
+                            <el-input class="inputStyle" name="id" v-model="form.id" size="small"
+                                      style="width: 150px"></el-input>
+                            <el-button style="width: 150px" type="primary" @click="getIDCode" size="small">获取授权码
+                            </el-button>
+                        </div>
+                    </div>
+                    <button class="ui primary button" style="width: 150px" type="submit" :disabled="isCan">授权</button>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+
+<script>
+    var app = new Vue({
+        el: '#app1',
+        data: {
+            form: {
+                departmentName: '',
+                nickName: '',
+                username: '',
+                password: '',
+                phone: '',
+                id: ''
+            },
+            isCan: true
+        },
+        watch: {
+            form: {
+                deep: true,
+                handler() {
+                    if (this.form.departmentName != '' && this.form.nickName != '' && this.form.username != '' && this.form.password != ''
+                        && this.form.phone != '' && this.form.id != '') {
+                        this.isCan = false;
+                    }
+                }
+            }
+        },
+        methods: {
+            getIDCode() {
+                axios.get('http://localhost:8080/super/generateIDCode').then(resp => {
+                    this.form.id = resp.data;
+                })
+            },
+
+        }
+    });
+</script>
+
+</html>

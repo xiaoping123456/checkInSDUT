@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>详情</title>
+    <!--semantic-ui-->
+    <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
+</head>
+<body>
+
+<!--主容器-->
+<div class="ui container">
+
+    <div><a title="点击返回首页" th:href="@{'/list/'+${department.getAbbreviation()}}"><img class="ui fluid image"
+                                                                                     th:src="@{/img/top.jpg}"></a></div>
+
+<!--    <div class="ui segment" style="text-align: center">-->
+<!--        <h3>查看疫情上报信息</h3>-->
+<!--    </div>-->
+    <div class="row">
+        <div class="col-md-12 column" th:fragment="topbar">
+            <h4 style="float: left" th:text="${department.getDepartName()}+'&nbsp;&nbsp;&nbsp;&nbsp;'+入校信息核验结果"></h4>
+            <h4 th:text=" '单位管理员姓名:'+${nickName} " th:align="right"></h4>
+        </div>
+        <div class="ui mini modal">
+            <i class="close icon"></i>
+            <div class="header">
+                确认修改
+            </div>
+            <div class="content">
+                确定要修改这个记录吗
+            </div>
+            <div class="actions">
+                <div class="ui negative button">Cancel</div>
+                <button class="ui positive right labeled icon button" onclick="submitform()">OK
+                    <i class="check icon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="ui placeholder segment">
+        <form th:action="@{/update}" method="post" id="updateform">
+            <div class="col-md-12 column">
+                <input type="hidden" name="dep" th:value="${department.getAbbreviation()}">
+                <input type="hidden" name="id" th:value="${user.getId()}">
+                <table class="ui celled structured table" style="font-size: 14px;text-align: center;">
+
+                    <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>健康码</th>
+                        <th>行程码</th>
+                        <th>核酸结果</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td rowspan="2" style="vertical-align: middle" th:text="${user.getName()}"></td>
+                            <td style="vertical-align: middle" th:utext="${user.getHealthTime()}+'<br>'+${user.getHealthMessage()}+'<br>'+${user.getHealthName()}+'<br>'+${user.getHealthIdCard()}"></td>
+                            <td style="vertical-align: middle" th:utext="${user.itineraryPhone}+'<br>'+${user.itineraryTime}+'<br>'+${user.getItineraryMessage()}"></td>
+                            <td style="vertical-align: middle" th:utext="${user.covid19Time}+'<br>'+${user.covid19Hospital}+'<br>'+${user.getCovid19Result()}+'<br>'+${user.covid19Name}+'<br>'+${user.covid19IdCard}"></td>
+                        </tr>
+                        <tr>
+                            <td th:name="health" th:if="${user.getHealthInfo() != '识别异常'}" th:text="${user.getHealthInfo()}" th:class="${user.getHealthInfo()=='绿码'?'positive':'negative'}"></td>
+                            <td th:name="health" th:if="${user.getHealthInfo() == '识别异常'}">
+                                <div style="float: left;margin-left: 5%;" class="ui selection dropdown error">
+                                    <input type="hidden" name="ifcolor" value="识别异常">
+                                    <i class="dropdown icon"></i>
+                                    <div class="text">识别异常</div>
+                                    <div class="menu">
+                                        <div class="item">绿码</div>
+                                        <div class="item">红码</div>
+                                        <div class="item">黄码</div>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="confirm()" style="margin-right: 5%" class="medium blue right floated ui button">
+                                    Save
+                                </button>
+                            </td>
+                            <td th:name="itinerary" th:if="${user.getItineraryInfo() != '识别异常'}" th:text="${user.getItineraryInfo()}" th:class="${(user.getItineraryInfo()=='行程码带*' || user.getItineraryInfo()=='识别异常' )?'negative':'positive'}"></td>
+                            <td th:name="itinerary" th:if="${user.getItineraryInfo() == '识别异常'}">
+                                <div style="float: left;margin-left: 5%;" class="ui selection dropdown error">
+                                    <input type="hidden" name="ifstar" value="识别异常">
+                                    <i class="dropdown icon"></i>
+                                    <div class="text">识别异常</div>
+                                    <div class="menu">
+                                        <div class="item">行程码不带*</div>
+                                        <div class="item">行程码带*</div>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="confirm()" style="margin-right: 5%" class="medium blue right floated ui button">
+                                    Save
+                                </button>
+                            </td>
+                            <td th:if="${user.getCovid19Info() != '识别异常'}" th:name="covid19" th:text="${user.getCovid19Info()}" th:class="${user.getCovid19Info()=='阴性核酸检测小于48小时'?'positive':'negative'}"></td>
+                            <td th:if="${user.getCovid19Info() == '识别异常'}" th:name="covid19">
+                                <div style="float: left;margin-left: 5%;" class="ui selection dropdown error">
+                                    <input type="hidden" name="if48" value="识别异常">
+                                    <i class="dropdown icon"></i>
+                                    <div class="text">识别异常</div>
+                                    <div class="menu">
+                                        <div class="item">阴性核酸检测小于48小时</div>
+                                        <div class="item">阴性核酸检测超过48小时</div>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="confirm()" style="margin-right: 5%" class="medium blue right floated ui button">
+                                    Save
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><img class="ui medium centered image" th:src="${user.getHealthImgPath()}"></td>
+                            <td><img class="ui medium centered image" th:src="${user.getItineraryImgPath()}"></td>
+                            <td><img class="ui medium centered image" th:src="${user.getCovid19ImgPath()}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <div th:replace="~{list::bottombar}"></div>
+
+</div>
+
+<script type="text/javascript" src="/js/jquery-3.6.0.js"></script>
+<script type="text/javascript" src="/js/semantic.js"></script>
+<script type="text/javascript" src="/js/color.js"></script>
+<!--<script type="text/javascript" src="/js/disabled.js"></script>-->
+
+<script>
+    $('.ui.selection.dropdown').dropdown();
+
+    function confirm(){
+        $('.mini.modal')
+            .modal('show')
+        ;
+    }
+
+    function submitform(){
+        document.getElementById("updateform").submit();
+    }
+
+</script>
+
+</body>
+</html>

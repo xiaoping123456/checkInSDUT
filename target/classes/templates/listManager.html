@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--兼容IE-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--网页每隔5min自动刷新-->
+    <meta http-equiv="Refresh" content="300">
+    <title>山东理工大学入校信息核验系统</title>
+    <!--semantic-ui-->
+    <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+
+<!--主容器-->
+<div class="ui container">
+
+    <div><img class="ui fluid image" th:src="@{/img/top.jpg}"></div>
+
+    <!--导航部分-->
+    <div style="margin-top: 20px">
+        <div>
+            <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"
+               th:href="@{'/list/'+${adminId}}">今日入校详情</a>
+            <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"
+               th:href="@{'/filedToday/'+${adminId}}">今日审核未通过详情</a>
+            <a class="ui button" type="button" style="background-color: #54afea"
+                th:href="@{'/goNotSubmitInToday/'+${adminId}}">今日未提交名单</a>
+            <a class="ui button" type="button" style="float: right;background-color: #e593d4"
+               th:href="@{'/goListManager/'+${adminId}}">名单管理</a>
+        </div>
+        <div style="margin-top: 20px;display: flex;justify-content: space-between">
+            <div>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e">历史数据详情</a>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e">提交数据统计</a>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e">“到达或途径”统计</a>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e">历史数据可视化</a>
+            </div>
+            <div>
+                <h4 th:text=" '单位管理员姓名:'+${nickName} " style=""></h4>
+                <a class="ui button" type="button" style="float:right"
+                   th:href="@{/logout}">退出</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui placeholder segment" id="app1">
+        <div>
+
+            <div style="display: flex;justify-content: space-between">
+                <h3 th:text="${admin.getDepartmentName()}+'：' "></h3>
+                <div>
+                    <el-button type="primary" @click="showAddView">添加成员</el-button>
+                    <el-button type="primary" @click="showImportView">导入成员</el-button>
+                    <el-button type="primary" @click="downloadTemplate">下载模板</el-button>
+                </div>
+            </div>
+
+            <!--添加成员的对话框-->
+            <el-dialog
+                    title="添加成员"
+                    :visible.sync="dialogVisibleForAdd"
+                    width="30%">
+                <div>
+                    <el-form ref="addForm" :model="person" label-width="100px" :rules="rules">
+                        <el-form-item label="工号/学号：" prop="id">
+                            <el-input size="small" v-model="person.id" placeholder="请输入工号/学号..."></el-input>
+                        </el-form-item>
+                        <el-form-item label="姓名：" prop="name">
+                            <el-input size="small" v-model="person.name" placeholder="请输入姓名..."></el-input>
+                        </el-form-item>
+                        <el-form-item label="身份证号：" prop="idCard">
+                            <el-input size="small" v-model="person.idCard" placeholder="请输入身份证号..."></el-input>
+                        </el-form-item>
+                        <el-form-item label="系部班级：" prop="departmentName">
+                            <el-input size="small"  v-model="person.departmentName" placeholder="请输入系部班级..."></el-input>
+                        </el-form-item>
+                        <el-form-item label="电话：" prop="telephone">
+                            <el-input size="small" v-model="person.telephone" placeholder="请输入电话..."></el-input>
+                        </el-form-item>
+                        <el-form-item label="手机1：" prop="phone1">
+                            <el-input size="small" v-model="person.phone1" placeholder="请输入手机1..."></el-input>
+                        </el-form-item>
+                        <el-form-item label="手机2：" prop="phone2">
+                            <el-input size="small" v-model="person.phone2" placeholder="请输入手机2..."></el-input>
+                        </el-form-item>
+                    </el-form>
+
+                </div>
+                <span slot="footer" class="dialog-footer">
+                        <el-button @click="dialogVisibleForAdd = false">取 消</el-button>
+                        <el-button type="primary" @click="addPerson">确 定</el-button>
+                      </span>
+            </el-dialog>
+            <!--表格展示-->
+            <div style="margin-top: 10px">
+                <el-table
+                        :data="allPerson"
+                        size="small"
+                        border
+                        stripe
+                        style="width: 100%">
+                    <el-table-column
+                            prop="id"
+                            label="工号/学号"
+                            width="130">
+                    </el-table-column>
+                    <el-table-column
+                            prop="name"
+                            label="姓名"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="idCard"
+                            label="身份证号"
+                            width="170">
+                    </el-table-column>
+                    <el-table-column
+                            prop="departmentName"
+                            label="系部/班级"
+                            width="150">
+                    </el-table-column>
+                    <el-table-column
+                            prop="telephone"
+                            label="电话"
+                            width="100">
+                    </el-table-column>
+                    <el-table-column
+                            prop="phone1"
+                            label="手机1"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="phone2"
+                            label="手机2"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            label="操作"
+                    >
+                        <template slot-scope="scope">
+                            <el-button type="primary" size="small" icon="el-icon-edit"
+                                       @click="showUpdateView(scope.row)">修改</el-button>
+                            <el-button type="danger" size="small" icon="el-icon-delete-solid"
+                                       @click="deletePerson(scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
+
+                </el-table>
+                <div style="display: flex;justify-content: flex-end;margin-top: 10px">
+                    <el-pagination
+                            background
+                            layout="prev, pager, next,total"
+                            @current-change="currentChange"
+                            :total="total">
+                    </el-pagination>
+                </div>
+            </div>
+            <!--修改成员信息的对话框-->
+            <el-dialog
+                    title="修改信息"
+                    :visible.sync="dialogVisible"
+                    width="30%">
+                <div>
+                    <el-row>
+                        工号/学号：<el-input size="small" v-model="person.id" style="margin-bottom: 5px"></el-input>
+                    </el-row>
+                    <el-row>
+                        姓名：<el-input size="small" v-model="person.name" style="margin-bottom: 5px"></el-input>
+                    </el-row>
+                    <el-row>
+                        身份证号：<el-input size="small" v-model="person.idCard" style="margin-bottom: 5px"></el-input>
+                    </el-row>
+                    <el-row>
+                        系部班级：<el-input size="small" v-model="person.departmentName" style="margin-bottom: 5px"></el-input>
+                    </el-row>
+                    <el-row>
+                        电话：<el-input size="small" v-model="person.telephone" style="margin-bottom: 5px"></el-input>
+                    </el-row>
+                    <el-row>
+                        手机1：<el-input size="small" v-model="person.phone1" style="margin-bottom: 5px"></el-input>
+                    </el-row>
+                    <el-row>
+                        手机2：<el-input size="small" v-model="person.phone2" style="margin-bottom: 5px"></el-input>
+                    </el-row>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                        <el-button @click="dialogVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="updatePerson">确 定</el-button>
+                      </span>
+            </el-dialog>
+            <!--导入名单的对话框-->
+            <el-dialog
+                    title="导入名单"
+                    :visible.sync="dialogVisibleForImport"
+                    width="30%"
+                    center>
+                <div>
+                    <el-upload
+                            class="upload-demo"
+                            ref="upload"
+                            action=""
+                            :http-request="uploadSectionFile"
+                            :auto-upload="false"
+                            accept=".xlsx"
+                            :limit="1"
+                            :file-list="fileList">
+                        <el-button size="small" type="primary">点击上传</el-button>
+                        <div  class="el-upload__tip">请上传名单的excel</div>
+
+                    </el-upload>
+                    <div style="display:flex;justify-content: flex-end;margin-top: 10px">
+                        <el-button  type="primary" size="small" @click="submitUpload">导入</el-button>
+                    </div>
+                </div>
+
+            </el-dialog>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+<script>
+    var app = new Vue({
+        el: "#app1",
+        data: {
+            allPerson: [],
+            total: 0,
+            currentPage: 1,
+            size: 10,
+            person:{
+                id:'',
+                name:'',
+                idCard:'',
+                departmentName:'',
+                telephone:'',
+                phone1:'',
+                phone2:'',
+                departmentId:''
+            },
+            //修改成员的对话框
+            dialogVisible:false,
+            dialogVisibleForAdd:false,
+            dialogVisibleForImport:false,
+            rules: {
+                id:[{required: true,message: '请输入工号/学号',trigger: 'blur'}],
+                name:[{required: true,message: '请输入姓名',trigger: 'blur'}],
+                idCard:[{required: true,message: '请输入身份证号',trigger: 'blur'}],
+                departmentName:[{required: true,message: '请输入系部/班级',trigger: 'blur'}],
+                telephone:[{required: true,message: '请输入电话',trigger: 'blur'}],
+                phone1:[{required: true,message: '请输入手机1',trigger: 'blur'}],
+                phone2:[{required: true,message: '请输入手机2',trigger: 'blur'}],
+            },
+            fileList:[]
+        },
+        mounted() {
+            this.initPersons();
+        },
+        methods: {
+            initPersons() {
+                let path = window.location.pathname;
+                let department = path.split('/')[2];
+                axios.get('http://localhost:8080/getAllPersonInDep?dep=' + department + "&currentPage="
+                    + this.currentPage + "&size=" + this.size)
+                    .then(resp => {
+                        if (resp) {
+                            this.allPerson = resp.data.data;
+                            this.total = resp.data.total;
+                        }
+                })
+            },
+            currentChange(page) {
+                this.currentPage = page;
+                this.initList();
+            },
+            showUpdateView(data){
+                this.person=data;
+                this.dialogVisible=true;
+            },
+            updatePerson(){
+                axios.post('http://localhost:8080/updatePerson',this.person).then(resp=>{
+                    if (resp){
+                        if (resp.data==true){
+                            this.$message({
+                                message:'修改成功',
+                                type:'success'
+                            })
+                        }else{
+                            this.$message({
+                                message:'修改失败，已经存在该工号/学号',
+                                type:'error'
+                            })
+                        }
+                    }
+                    this.dialogVisible=false;
+                    this.initPersons();
+                })
+            },
+            deletePerson(data){
+                this.$confirm('此操作将永久删除该成员, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let id = data.id;
+                    axios.delete('http://localhost:8080/deletePerson?id='+id).then(resp=>{
+                        if (resp){
+                            if (resp.data==true){
+                                this.$message({
+                                    message:'修改成功',
+                                    type:'success'
+                                })
+                            }else{
+                                this.$message({
+                                    message:'修改失败，已经存在该工号/学号',
+                                    type:'error'
+                                })
+                            }
+                            this.initPersons();
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            showAddView(){
+                //初始化person
+                this.person={
+                    id:'',
+                    name:'',
+                    idCard:'',
+                    departmentName:'',
+                    telephone:'',
+                    phone1:'',
+                    phone2:'',
+                    departmentId:''
+                }
+                this.dialogVisibleForAdd=true;
+            },
+            addPerson(){
+                this.$refs['addForm'].validate(valid=>{
+                    if (valid){
+                        let pathname = window.location.pathname;
+                        let dep = pathname.split('/')[2];
+                        axios({
+                            method:'post',
+                            url:'http://localhost:8080/addPerson',
+                            data:{
+                                person:this.person,
+                                dep:dep
+                            }
+                        }).then(resp=>{
+                            if (resp){
+                                if (resp.data==true){
+                                    this.$message({
+                                        message:'添加成功',
+                                        type:'success'
+                                    })
+                                }else{
+                                    this.$message({
+                                        message:'修改失败，已经存在该工号/学号',
+                                        type:'error'
+                                    })
+                                }
+                                this.initPersons();
+                                this.dialogVisibleForAdd=false;
+                            }
+                        })
+                    }
+                })
+            },
+            downloadTemplate(){
+                axios.post('http://localhost:8080/downloadTemplate').then(resp=>{
+                    if (resp.data){
+                        window.open(resp.data);
+                    }
+                })
+            },
+            showImportView(){
+              this.dialogVisibleForImport=true;
+            },
+            uploadSectionFile(param){
+                let fileObj = param.file; // 相当于input里取得的files
+                let fileName = fileObj.name;
+                let formData = new FormData(); // FormData 对象
+                formData.append("file",fileObj);
+                let pathname = window.location.pathname;
+                let dep = pathname.split("/")[2];
+                formData.append("dep",dep);
+                axios.post('http://localhost:8080/import',formData).then(resp=>{
+                    if (resp){
+                        if (resp.data.code==200){
+                            this.$message.success('导入成功');
+                            this.dialogVisibleForImport=false;
+                            this.initPersons();
+                            return;
+                        }
+                    }
+                })
+            },
+            submitUpload(){
+                let list = document.getElementsByClassName('el-upload-list__item is-ready')
+                if(list.length == 0){
+                    this.$message({
+                        type:'warning',
+                        message:"请选择需要导入的文件！"
+                    })
+                    return;
+                }
+                this.$refs.upload.submit();
+            }
+        }
+    })
+</script>
+
+</html>
