@@ -21,6 +21,8 @@ public class User {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id; //主键
 
+    private String departmentId; //所属部门id
+
     private String name;
     private String unit; //单位，eg:计算机科学与技术学院
     private String phone;

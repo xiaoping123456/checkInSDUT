@@ -1,13 +1,17 @@
 package com.sdut.covid19.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.sdut.covid19.mapper.PersonMapper;
 import com.sdut.covid19.mapper.UserMapper;
+import com.sdut.covid19.pojo.Person;
 import com.sdut.covid19.pojo.User;
 import com.sdut.covid19.utils.PyOcrRemote;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,14 +45,24 @@ public class ImageController {
 
     @Autowired
     ThreadPoolExecutor imageOcrThreadPoolExecutor;
+    @Autowired
+    private PersonMapper personMapper;
 
 
     @RequestMapping("/upload")
     public String upload(@RequestParam("name") String name,
                         @RequestParam("healthImg") MultipartFile healthImg,
                         @RequestParam("itineraryImg") MultipartFile itineraryImg,
-                        @RequestParam("covid19Img") MultipartFile covid19Img
+                        @RequestParam("covid19Img") MultipartFile covid19Img,
+                         @RequestParam("dep") String dep,
+                         Model model
                         ) throws IOException {
+
+        if (personMapper.selectOne(new QueryWrapper<Person>().eq("department_id",dep)
+                .eq("name",name))==null){
+            model.addAttribute("message","很抱歉，您不在该部门，无法提交");
+            return "error";
+        }
 
         String healthImgPath = "";
         String itineraryImgPath = "";
@@ -90,6 +104,10 @@ public class ImageController {
             long l1 = System.currentTimeMillis();
             User user = new User();
             user.setName(name);
+
+            //设置所属部门
+            user.setDepartmentId(dep);
+
             user.setTimestamp(currentTimeMillis);
             Date date1 = new Date(currentTimeMillis);
             SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -206,6 +224,7 @@ public class ImageController {
                     Map<String, Object> map = new HashMap<>();
                     //自定义查询
                     map.put("name",name);
+                    map.put("department_id",dep);
                     List<User> users = userMapper.selectByMap(map);
                     int k = 0;
                     for (User user1 : users) {

@@ -31,7 +31,8 @@
                th:href="@{'/list/'+${adminId}}">今日入校详情</a>
             <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"
                th:href="@{'/filedToday/'+${adminId}}">今日审核未通过详情</a>
-            <a class="ui button" type="button" style="background-color: #54afea">今日未提交名单</a>
+            <a class="ui button" type="button" style="background-color: #54afea"
+               th:href="@{'/goNotSubmitInToday/'+${adminId}}">今日未提交名单</a>
             <a class="ui button" type="button" style="float: right;background-color: #e593d4"
                th:href="@{'/goListManager/'+${adminId}}">名单管理</a>
         </div>
@@ -51,45 +52,34 @@
                    th:href="@{/logout}">退出</a>
             </div>
         </div>
+
     </div>
 
-    <div class="ui grid" style="margin-top: 20px">
+    <div class="ui grid" style="margin-top: 0px">
         <div class="four wide column">
-            当前位置：今日未提交名单
-        </div>
-        <div class="twelve wide column">
-            <p th:text=" '今日未提交 '+${noSubmittedCount}+' 人' "></p>
+            当前位置：提交数据统计
         </div>
     </div>
 
-    <div class="ui placeholder segment" id="app1">
-        <div class="col-md-12 column">
-            <table class="ui celled structured table" style="font-size: 14px;text-align: center">
-
-                <thead>
-                <tr>
-                    <th>姓名</th>
-                    <th>工号/学号</th>
-                    <th>身份证号</th>
-                    <th>部门/班级</th>
-                    <th>电话</th>
-                    <th>手机1</th>
-                    <th>手机2</th>
-                </tr>
-                </thead>
-
-                <tbody v-for="person in list">
-                <tr>
-                    <td>{{person.name}}</td>
-                    <td>{{person.id}}</td>
-                    <td>{{person.idCard}}</td>
-                    <td>{{person.departmentName}}</td>
-                    <td>{{person.telephone}}</td>
-                    <td>{{person.phone1}}</td>
-                    <td>{{person.phone2}}</td>
-                </tr>
-                </tbody>
-            </table>
+    <div id="app1">
+        <div style="margin-top: 15px">
+            <el-table
+                    :data="dataList"
+                    border
+                    :cell-style="{'font-weight':'bold'}"
+                    :header-cell-style="{'color':'#606266'}"
+                    style="width: 100%">
+                <el-table-column
+                        prop="name"
+                        label="姓名"
+                        width="100">
+                </el-table-column>
+                <el-table-column :label="val" v-for="(val,i) in dayList" :key="i" align="center">
+                    <template slot-scope="scope">
+                        {{dataList[scope.$index].arr[i]}}
+                    </template>
+                </el-table-column>
+            </el-table>
             <div style="display: flex;justify-content: flex-end;margin-top: 10px">
                 <el-pagination
                         background
@@ -101,42 +91,42 @@
         </div>
     </div>
 
+
 </div>
 
 </body>
 
 <script>
-
-    var app1 = new Vue({
+    var app = new Vue({
         el:"#app1",
         data:{
-            list:[],
-            total: 0,
-            currentPage: 1,
-            size: 10
+            dataList:[],
+            dayList:[],
+            total:0,
+            currentPage:1,
+            size:10
         },
         mounted(){
-            this.initList();
+            this.initData()
         },
         methods:{
-            initList(){
-                let path = window.location.pathname;
-                let department = path.split('/')[2];
-                axios.get('http://localhost:8080/getNotSubmitPersonInToday?department=' + department + "&currentPage="
-                    + this.currentPage + "&size=" + this.size).then(resp=>{
-                    if (resp){
-                        this.list = resp.data.data
-                        this.total = resp.data.total
-                    }
+            initData(){
+                let pathname = window.location.pathname;
+                let department = pathname.split('/')[2];
+                axios.get('http://localhost:8080/get21DaysData?dep='+department+
+                                                    '&currentPage='+this.currentPage+
+                                                    '&size='+this.size).then(resp=>{
+                    this.dayList=resp.data.dayList;
+                    this.dataList=resp.data.data;
+                    this.total=resp.data.total;
                 })
             },
             currentChange(page) {
                 this.currentPage = page;
-                this.initList();
+                this.initData();
             }
         }
     })
-
 </script>
 
 </html>

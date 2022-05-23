@@ -83,5 +83,37 @@ public interface UserMapper extends BaseMapper<User> {
             "\tORDER BY `timestamp` desc")
     public Integer getFailedCountInCurrentDayInOneDep(String dep,long begin,long end);
 
+    /**
+     * 获取该部门21天内的所有提交数据  按提交时间降序
+     * @param dep
+     * @param begin
+     * @param end
+     * @return
+     */
+    @Select("SELECT `user`.* FROM `user`,person\n" +
+            "WHERE\n" +
+            "person.name=`user`.`name`\n" +
+            "AND\n" +
+            "person.department_id=#{dep}\n" +
+            "AND\n" +
+            "(`user`.`timestamp` BETWEEN #{begin} and #{end}) ORDER BY `user`.`timestamp` DESC")
+    public List<User> get21DaysData(String dep,long begin,long end);
+
+    /**
+     * 获取该部门21天内的所有提交数据  按提交时间升序
+     * @param dep
+     * @param begin
+     * @param end
+     * @return
+     */
+    @Select("SELECT `user`.* FROM `user`,person\n" +
+            "WHERE\n" +
+            "person.name=`user`.`name`\n" +
+            "AND\n" +
+            "person.department_id=#{dep}\n" +
+            "AND\n" +
+            "(`user`.`timestamp` BETWEEN #{begin} and #{end}) ORDER BY `user`.`timestamp` ASC")
+    public List<User> get21DaysData2(String dep,long begin,long end);
+
 
 }

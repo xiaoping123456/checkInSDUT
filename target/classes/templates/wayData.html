@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--兼容IE-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--网页每隔5min自动刷新-->
+    <meta http-equiv="Refresh" content="300">
+    <title>山东理工大学入校信息核验系统</title>
+    <!--semantic-ui-->
+    <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/js/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<!--主容器-->
+<div class="ui container">
+    <div><img class="ui fluid image" th:src="@{/img/top.jpg}"></div>
+
+    <!--导航部分-->
+    <div style="margin-top: 20px">
+        <div>
+            <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"
+               th:href="@{'/list/'+${adminId}}">今日入校详情</a>
+            <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"
+               th:href="@{'/filedToday/'+${adminId}}">今日审核未通过详情</a>
+            <a class="ui button" type="button" style="background-color: #54afea"
+               th:href="@{'/goNotSubmitInToday/'+${adminId}}">今日未提交名单</a>
+            <a class="ui button" type="button" style="float: right;background-color: #e593d4"
+               th:href="@{'/goListManager/'+${adminId}}">名单管理</a>
+        </div>
+        <div style="margin-top: 20px;display: flex;justify-content: space-between">
+            <div>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e;">历史数据详情
+                </a>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e"
+                   th:href="@{'/toSubmitDataCount/'+${adminId}}">提交数据统计</a>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e"
+                   th:href="@{'/toWayData/'+${adminId}}">“到达或途径”统计</a>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e">历史数据可视化</a>
+            </div>
+            <div>
+                <h4 th:text=" ${admin.getDepartmentName()}+' : '+${nickName} " style=""></h4>
+                <a class="ui button" type="button" style="float:right"
+                   th:href="@{/logout}">退出</a>
+            </div>
+        </div>
+
+        <div id="app1" style="margin-top: 15px">
+            <el-table
+                    :data="list"
+                    border
+                    style="width: 100%">
+                <el-table-column
+                        prop="id"
+                        label="工号/学号"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="name"
+                        label="姓名"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="ways"
+                        :label="dayScope"
+                        width="570">
+                </el-table-column>
+                <el-table-column
+                        label="行程码详情【查看行程码截图】">
+                    <template slot-scope="scope">
+                        <div style="display: flex;justify-content: center">
+                            <el-button size="small" type="primary" @click="lookPic(scope.row)">打开</el-button>
+                        </div>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div style="display: flex;justify-content: flex-end;margin-top: 10px">
+                <el-pagination
+                        background
+                        layout="prev, pager, next,total"
+                        @current-change="currentChange"
+                        :total="total">
+                </el-pagination>
+            </div>
+
+            <el-dialog
+                    title="最近21天的行程卡截图"
+                    :visible.sync="dialogVisible"
+                    width="40%">
+                <i style="margin-bottom: 5px">注：点击图片即可预览</i>
+                <div class="demo-image__lazy" style="align-content: center">
+                    <el-image style="width: 90px;height: 160px;margin-right: 10px" v-for="(url,index) in imgUrls"
+                              :key="index"
+                              :src="url"
+                              :preview-src-list="preImgUrls[index]"
+                              lazy></el-image>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="dialogVisible = false" size="small">关 闭</el-button>
+                </span>
+            </el-dialog>
+
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+
+<script>
+    var app = new Vue({
+        el:"#app1",
+        data:{
+            list:[],
+            total:0,
+            currentPage:1,
+            size:10,
+            dayScope:'',
+            dialogVisible:false,
+            imgUrls:[],
+            preImgUrls:[]
+        },
+        mounted(){
+            this.initData();
+        },
+        methods:{
+            initData(){
+                let pathname = window.location.pathname;
+                let department = pathname.split('/')[2];
+                axios.get('http://localhost:8080/get21DaysWayData?dep='+department+
+                    '&currentPage='+this.currentPage+
+                    '&size='+this.size).then(resp=>{
+                        this.total=resp.data.total;
+                        this.list=resp.data.data;
+                        this.dayScope='近14+7天到达或途径城市【'+resp.data.dayList[0]
+                            +' 至 '+resp.data.dayList[1]+'】';
+                })
+            },
+            currentChange(page) {
+                this.currentPage = page;
+                this.initData();
+            },
+            lookPic(data){
+                this.dialogVisible=true;
+                this.imgUrls=data.imgUrls;
+                this.imgUrls.forEach(url=>{
+                    var arr = new Array();
+                    arr.push(url);
+                    this.preImgUrls.push(arr);
+                })
+            }
+        }
+    })
+</script>
+
+</html>

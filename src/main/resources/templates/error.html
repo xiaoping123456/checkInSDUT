@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>上传成功</title>
+    <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="ui container" >
+
+    <img th:src="@{/img/top_phone.jpg}" width="100%">
+    <div class="ui segment" style="text-align: center">
+        <h3 th:text="${message}"></h3>
+    </div>
+</div>
+<script type="text/javascript" src="/js/disabled.js"></script>
+</body>
+</html>

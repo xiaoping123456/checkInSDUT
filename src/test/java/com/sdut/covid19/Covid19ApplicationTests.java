@@ -42,4 +42,6 @@ class Covid19ApplicationTests {
         System.out.println(userMapper.selectById(Long.parseLong("1522899545019609000")));
     }
 
+
+
 }
