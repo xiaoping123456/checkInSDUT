@@ -50,8 +50,15 @@
                    th:href="@{/logout}">退出</a>
             </div>
         </div>
+    </div>
 
-        <div id="app1" style="margin-top: 15px">
+    <div id="app1" style="margin-top: 15px">
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu-item index="1">表格</el-menu-item>
+            <el-menu-item index="2">关系图</el-menu-item>
+        </el-menu>
+
+        <div v-show="showTable">
             <el-table
                     :data="list"
                     border
@@ -88,7 +95,7 @@
                         :total="total">
                 </el-pagination>
             </div>
-
+            <!--显示图片的对话框-->
             <el-dialog
                     title="最近21天的行程卡截图"
                     :visible.sync="dialogVisible"
@@ -102,11 +109,16 @@
                               lazy></el-image>
                 </div>
                 <span slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="dialogVisible = false" size="small">关 闭</el-button>
-                </span>
+                <el-button type="primary" @click="dialogVisible = false" size="small">关 闭</el-button>
+            </span>
             </el-dialog>
-
         </div>
+
+        <div v-show="!showTable">
+            <p>关系图</p>
+        </div>
+    </div>
+
 
     </div>
 </div>
@@ -125,12 +137,22 @@
             dayScope:'',
             dialogVisible:false,
             imgUrls:[],
-            preImgUrls:[]
+            preImgUrls:[],
+            showTable:true,
+            activeIndex:1
         },
         mounted(){
             this.initData();
         },
         methods:{
+            handleSelect(key,keypath){
+                this.activeIndex=key
+                if (key==1){
+                    this.showTable=true;
+                }else if(key==2){
+                    this.showTable=false;
+                }
+            },
             initData(){
                 let pathname = window.location.pathname;
                 let department = pathname.split('/')[2];
