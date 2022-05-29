@@ -13,8 +13,12 @@ import java.util.*;
 public class Test {
 
     public static void main(String[] args) {
-        String itineraryInfo = "山东省淄博市,山东省青岛市,北京市";
-        List<String> itineraryList = Arrays.asList(itineraryInfo.split(","));
+        List<List<String>> list1 = new ArrayList<>();
+        List<String> list2 = new ArrayList<>();
+        list2.add("123");
+        list2.add("111");
+        list1.add(list2);
+        System.out.println(list1);
     }
 
 }

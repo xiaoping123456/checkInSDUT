@@ -5,6 +5,7 @@ import com.sdut.covid19.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -50,6 +51,26 @@ public class UserUtil {
     //行程码 图片路径转url
     public static String pathToUrl(String path) {
         return "http://43.138.66.201:8080" + path;
+    }
+
+    /**
+     * 提取itineraryInfo中的市级信息
+     */
+    public static List<String> getCityList(String itineraryInfo){
+        List<String> itineraryList = Arrays.asList(itineraryInfo.split(","));
+        List<String> cityList = new ArrayList<>();
+        itineraryList.forEach(place->{
+            if (place.equals("北京市")||place.equals("天津市")||place.equals("重庆市")||place.equals("上海市")){
+                cityList.add(place);
+            }else if (place.contains("自治区")){
+                cityList.add(place.substring(place.indexOf("自治区")+3));
+            }else if (place.contains("行政区")){
+                cityList.add(place);
+            }else {
+                cityList.add(place.substring(place.indexOf("省")+1));
+            }
+        });
+        return cityList;
     }
 
 

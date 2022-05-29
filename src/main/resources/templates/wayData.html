@@ -12,6 +12,8 @@
     <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/js/vue.js"></script>
+    <script src="/js/echarts.js"></script>
+<!--    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>-->
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
@@ -53,7 +55,7 @@
     </div>
 
     <div id="app1" style="margin-top: 15px">
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu default-active="1" class="el-menu-demo" mode="horizontal" @select="handleSelect">
             <el-menu-item index="1">表格</el-menu-item>
             <el-menu-item index="2">关系图</el-menu-item>
         </el-menu>
@@ -114,8 +116,8 @@
             </el-dialog>
         </div>
 
-        <div v-show="!showTable">
-            <p>关系图</p>
+        <div v-show="!showTable" style="display: flex;justify-content: center">
+            <div id="relationChart" style="width: 1200px; height:500px;" ></div>
         </div>
     </div>
 
@@ -127,7 +129,7 @@
 </body>
 
 <script>
-    var app = new Vue({
+    var app1 = new Vue({
         el:"#app1",
         data:{
             list:[],
@@ -139,10 +141,13 @@
             imgUrls:[],
             preImgUrls:[],
             showTable:true,
-            activeIndex:1
+            activeIndex:1,
+            cityList:[],
+            wayList:[]
         },
         mounted(){
             this.initData();
+            this.initWayData();
         },
         methods:{
             handleSelect(key,keypath){
@@ -163,6 +168,50 @@
                         this.list=resp.data.data;
                         this.dayScope='近14+7天到达或途径城市【'+resp.data.dayList[0]
                             +' 至 '+resp.data.dayList[1]+'】';
+                })
+            },
+            initWayData(){
+                let pathname = window.location.pathname;
+                let department = pathname.split('/')[2];
+                axios.get('http://localhost:8080/get21DaysWayDataForRelationMap?dep='+department).then(resp=>{
+                    this.cityList = resp.data.cityList;
+                    this.wayList = resp.data.wayList;
+
+                    var chartDom = document.getElementById('relationChart');
+                    var myChart = echarts.init(chartDom);
+                    var option;
+                    option = {
+                        title: {
+                            text: ''
+                        },
+                        tooltip: {},
+                        series: [
+                            {
+                                type: 'graph',
+                                layout: 'force',
+                                force: {
+                                    repulsion: 1000,
+                                },
+                                roam: true,
+                                draggable: true,
+                                label: {
+                                    show: true
+                                },
+                                edgeSymbolSize: [4, 10],
+                                edgeLabel: {
+                                    fontSize: 20
+                                },
+                                data: this.cityList,
+                                links: this.wayList,
+                                lineStyle: {
+                                    opacity: 0.9,
+                                    width: 2,
+                                    curveness: 0
+                                }
+                            }
+                        ]
+                    };
+                    option && myChart.setOption(option);
                 })
             },
             currentChange(page) {
