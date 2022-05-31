@@ -53,7 +53,7 @@ public class ImageController {
     public String upload(@RequestParam("name") String name,
                         @RequestParam("healthImg") MultipartFile healthImg,
                         @RequestParam("itineraryImg") MultipartFile itineraryImg,
-                        @RequestParam("covid19Img") MultipartFile covid19Img,
+                        @RequestParam(value = "covid19Img",required = false) MultipartFile covid19Img,
                          @RequestParam("dep") String dep,
                          Model model
                         ) throws IOException {
@@ -75,8 +75,8 @@ public class ImageController {
         //使用Thumbnails压缩图片并上传到指定位置
         if (!healthImg.isEmpty()) {
             String originalFilename = currentTimeMillis + "1.png";
-//            healthImgPath = "D:/imgfiles/" + originalFilename; //win
-            healthImgPath = property + "/img/" + originalFilename; //linux图片路径
+            healthImgPath = "D:/imgfiles/" + originalFilename; //win
+//            healthImgPath = property + "/img/" + originalFilename; //linux图片路径
 //            healthImg.transferTo(new File(healthImgPath));
             Thumbnails.of(healthImg.getInputStream()).scale(1f).outputQuality(0.2f).toFile(healthImgPath);
 
@@ -84,18 +84,18 @@ public class ImageController {
 
         if (!itineraryImg.isEmpty()) {
             String originalFilename = currentTimeMillis + "2.png";
-//            itineraryImgPath = "D:/imgfiles/" + originalFilename; //win
-            itineraryImgPath = property + "/img/" + originalFilename; //linux图片路径
+            itineraryImgPath = "D:/imgfiles/" + originalFilename; //win
+//            itineraryImgPath = property + "/img/" + originalFilename; //linux图片路径
 //            itineraryImg.transferTo(new File(itineraryImgPath));
             Thumbnails.of(itineraryImg.getInputStream()).scale(1f).outputQuality(0.1f).toFile(itineraryImgPath);
         }
-        if (!covid19Img.isEmpty()) {
-            String originalFilename = currentTimeMillis + "3.png";
+//        if (!covid19Img.isEmpty()) {
+//            String originalFilename = currentTimeMillis + "3.png";
 //            covid19ImgPath = "D:/imgfiles/" + originalFilename; //win
-            covid19ImgPath = property + "/img/" + originalFilename; //linux图片路径
-//            covid19Img.transferTo(new File(covid19ImgPath));
-            Thumbnails.of(covid19Img.getInputStream()).scale(1f).outputQuality(0.1f).toFile(covid19ImgPath);
-        }
+////            covid19ImgPath = property + "/img/" + originalFilename; //linux图片路径
+////            covid19Img.transferTo(new File(covid19ImgPath));
+//            Thumbnails.of(covid19Img.getInputStream()).scale(1f).outputQuality(0.1f).toFile(covid19ImgPath);
+//        }
 
         String finalHealthImgPath = healthImgPath;
         String finalItineraryImgPath = itineraryImgPath;
@@ -117,6 +117,7 @@ public class ImageController {
             user.setItineraryImgPath(finalItineraryImgPath);
             user.setCovid19ImgPath(finalCovid19ImgPath);
 
+            //健康码
             String healthImgOcrInfo = pyOcrRemote.getOcrInfo(1, finalHealthImgPath);
             log.info("healthImgOcrInfo:{}",healthImgOcrInfo);
             String[] healthList = healthImgOcrInfo.split("\\|");
@@ -130,9 +131,29 @@ public class ImageController {
             user.setHealthTime(healthList[1]);
             user.setHealthMessage(healthList[2]);
             user.setHealthName(healthList[3]);
-            user.setHealthIdCard(healthList[4]);
+//            user.setHealthIdCard(healthList[4]);
+            if (healthList[4].equals("2")){
+                user.setCovid19Result("阴性");
+            }else if (healthList[4].equals("1")){
+                user.setCovid19Result("阳性");
+            }else{
+                user.setCovid19Result("识别异常");
+            }
+            user.setCovid19Time(healthList[5]);
+            //判断核酸检测时间是否在48h内
+            try{
+                Long doTestTime = Long.parseLong(healthList[7]);
+                Long currentTime = System.currentTimeMillis();
+                if ((currentTime-doTestTime)>24*60*60*1000){
+                    user.setCovid19Info("阴性核酸检测超过48小时");
+                }else{
+                    user.setCovid19Info("阴性核酸检测小于48小时");
+                }
+            }catch (Exception e){
+                user.setCovid19Info("识别异常");
+            }
 
-
+            //行程码
             String itineraryImgOcrInfo = pyOcrRemote.getOcrInfo(2, finalItineraryImgPath);
             log.info("itineraryImgOcrInfo:{}",itineraryImgOcrInfo);
             String[] itineraryList = itineraryImgOcrInfo.split("\\|");
@@ -148,60 +169,60 @@ public class ImageController {
             user.setItineraryMessage(itineraryList[3]);
 
 
-            String covid19ImgOcrInfo = pyOcrRemote.getOcrInfo(3, finalCovid19ImgPath);
-            log.info("covid19ImgOcrInfo:{}",covid19ImgOcrInfo);
-            String[] covid19List = covid19ImgOcrInfo.split("\\|");
-            if ("0".equals(covid19List[0])){
-                user.setCovid19Info("识别异常");
-            }else if ("1".equals(covid19List[0])){
-                user.setCovid19Info("阳性");
-            }else if ("2".equals(covid19List[0])){
-                // 设置日期格式
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                // 获取当前时间
-                long currentTimestamp = new Date().getTime();
-                String currentTime = df.format(currentTimestamp);
-                // 获取当天16:00:00的时间，转换成时间戳形式
-                String time = currentTime.split(" ")[0] + " 16:00:00";
-                long today = 0;
-                try {
-                    today = df.parse(time).getTime();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                long dayTimestamp = 24 * 60 * 60 * 1000; // 24小时的时间戳
-                long before_yesterday = today - dayTimestamp -dayTimestamp;   // 前天16:00:00的时间戳
-                long covid19Time = 0;   // 核酸检测报告的时间
-
-                try {
-                    covid19Time = Long.parseLong(covid19List[6]);
-                    if(covid19Time >= before_yesterday){
-                        user.setCovid19Info("阴性核酸检测小于48小时");
-                    }
-                    else {
-                        user.setCovid19Info("阴性核酸检测超过48小时");
-                    }
-                } catch (Exception e) {
-                    user.setCovid19Info("识别异常");
-                    e.printStackTrace();
-                }
-
-            }
-            user.setCovid19Name(covid19List[1]);
-            user.setCovid19IdCard(covid19List[2]);
-            user.setCovid19Time(covid19List[3]);
-            user.setCovid19Hospital(covid19List[4]);
-            user.setCovid19Result(covid19List[5]);
+//            String covid19ImgOcrInfo = pyOcrRemote.getOcrInfo(3, finalCovid19ImgPath);
+//            log.info("covid19ImgOcrInfo:{}",covid19ImgOcrInfo);
+//            String[] covid19List = covid19ImgOcrInfo.split("\\|");
+//            if ("0".equals(covid19List[0])){
+//                user.setCovid19Info("识别异常");
+//            }else if ("1".equals(covid19List[0])){
+//                user.setCovid19Info("阳性");
+//            }else if ("2".equals(covid19List[0])){
+//                // 设置日期格式
+//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                // 获取当前时间
+//                long currentTimestamp = new Date().getTime();
+//                String currentTime = df.format(currentTimestamp);
+//                // 获取当天16:00:00的时间，转换成时间戳形式
+//                String time = currentTime.split(" ")[0] + " 16:00:00";
+//                long today = 0;
+//                try {
+//                    today = df.parse(time).getTime();
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                long dayTimestamp = 24 * 60 * 60 * 1000; // 24小时的时间戳
+//                long before_yesterday = today - dayTimestamp -dayTimestamp;   // 前天16:00:00的时间戳
+//                long covid19Time = 0;   // 核酸检测报告的时间
+//
+//                try {
+//                    covid19Time = Long.parseLong(covid19List[6]);
+//                    if(covid19Time >= before_yesterday){
+//                        user.setCovid19Info("阴性核酸检测小于48小时");
+//                    }
+//                    else {
+//                        user.setCovid19Info("阴性核酸检测超过48小时");
+//                    }
+//                } catch (Exception e) {
+//                    user.setCovid19Info("识别异常");
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//            user.setCovid19Name(covid19List[1]);
+//            user.setCovid19IdCard(covid19List[2]);
+//            user.setCovid19Time(covid19List[3]);
+//            user.setCovid19Hospital(covid19List[4]);
+//            user.setCovid19Result(covid19List[5]);
 
 
 
             if ("绿码".equals(user.getHealthInfo()) &&
-                    "行程码不带*".equals(user.getItineraryInfo()) &&
+                    (!user.getItineraryInfo().equals("行程码带*") && !user.getItineraryInfo().equals("识别异常")) &&
                     "阴性核酸检测小于48小时".equals(user.getCovid19Info())){
-                user.setInfoOk(true);
-            }else{
                 user.setInfoOk(false);
+            }else{
+                user.setInfoOk(true);
             }
             log.info("user:{}",JSON.toJSONString(user));
             long l2 = System.currentTimeMillis();
