@@ -2,6 +2,7 @@ package com.sdut.covid19.utils;
 
 import com.sun.javaws.IconUtil;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -12,13 +13,12 @@ import java.util.*;
  */
 public class Test {
 
-    public static void main(String[] args) {
-        List<List<String>> list1 = new ArrayList<>();
-        List<String> list2 = new ArrayList<>();
-        list2.add("123");
-        list2.add("111");
-        list1.add(list2);
-        System.out.println(list1);
+    public static void main(String[] args) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        long parse = sdf.parse("2022-01-01").getTime();
+        long time = sdf.parse("2037-12-31").getTime();
+        System.out.println(parse);
+        System.out.println(time);
     }
 
 }

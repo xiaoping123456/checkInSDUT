@@ -38,13 +38,14 @@
         </div>
         <div style="margin-top: 20px;display: flex;justify-content: space-between">
             <div>
-                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e;">历史数据详情
-                </a>
+                <a th:href="@{'/list/historyData/'+${adminId}}" class="ui button" type="button"
+                   style="margin-right: 20px;background-color: #67e25e">历史数据详情</a>
                 <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e"
                     th:href="@{'/toSubmitDataCount/'+${adminId}}">提交数据统计</a>
                 <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e"
                    th:href="@{'/toWayData/'+${adminId}}">“到达或途径”统计</a>
-                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e">历史数据可视化</a>
+                <a th:href="@{'/list/visualization/'+${adminId}}" class="ui button" type="button"
+                   style="margin-right: 20px;background-color: #67e25e">历史数据可视化</a>
             </div>
             <div>
                 <h4 th:text=" ${department.getDepartName()}+' : '+${nickName} " style=""></h4>

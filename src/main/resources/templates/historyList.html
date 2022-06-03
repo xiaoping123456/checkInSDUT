@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--兼容IE-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--网页每隔5min自动刷新-->
+    <meta http-equiv="Refresh" content="300">
+    <title>首页</title>
+    <!--semantic-ui-->
+    <link href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/pagination.css}" rel="stylesheet">
+    <script th:src="@{/js/jutils.min.js}"></script>
+    <script th:src="@{/js/jquery-3.6.0.js}"></script>
+    <script th:src="@{/js/jquery.pagination.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/laydate/laydate.js}"></script>
+    <!--semantic-ui-->
+    <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/js/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+        #tab tr td,
+        th {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .datecss1 p {
+            font-size: 16px;
+        }
+
+        .datecss1 div {
+            padding-left: 2%;
+            font-size: 16px;
+        }
+
+        .error{
+            background-color: rgb(255, 246, 246);
+            color: red;
+        }
+        .success{
+            background-color: rgb(255, 255, 246);
+            color: green;
+        }
+
+        .demo-input {
+            padding-left: 10px;
+            height: 38px;
+            min-width: 262px;
+            line-height: 38px;
+            border: 1px solid #e6e6e6;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+
+        .demo-footer {
+            padding: 50px 0;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .demo-footer a {
+            padding: 0 5px;
+            color: #01AAED;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!--主容器-->
+    <div class="container" id="app1">
+        <div><img class="ui fluid image" th:src="@{/img/top.jpg}"></div>
+
+        <!--导航部分-->
+        <div style="margin-top: 20px">
+            <div>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"
+                   th:href="@{'/list/'+${adminId}}">今日入校详情</a>
+                <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"
+                   th:href="@{'/filedToday/'+${adminId}}">今日审核未通过详情</a>
+                <a class="ui button" type="button" style="background-color: #54afea"
+                   th:href="@{'/goNotSubmitInToday/'+${adminId}}">今日未提交名单</a>
+                <a class="ui button" type="button" style="float: right;background-color: #e593d4"
+                   th:href="@{'/goListManager/'+${adminId}}">名单管理</a>
+            </div>
+            <div style="margin-top: 20px;display: flex;justify-content: space-between">
+                <div>
+                    <a th:href="@{'/list/historyData/'+${adminId}}" class="ui button" type="button"
+                       style="margin-right: 20px;background-color: #67e25e">历史数据详情</a>
+                    <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e"
+                       th:href="@{'/toSubmitDataCount/'+${adminId}}">提交数据统计</a>
+                    <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e"
+                       th:href="@{'/toWayData/'+${adminId}}">“到达或途径”统计</a>
+                    <a th:href="@{'/list/visualization/'+${adminId}}" class="ui button" type="button"
+                       style="margin-right: 20px;background-color: #67e25e">历史数据可视化</a>
+                </div>
+                <div>
+                    <h4 th:text=" ${department.getDepartName()}+' : '+${nickName} " style=""></h4>
+                    <a class="ui button" type="button" style="float:right"
+                       th:href="@{/logout}">退出</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="ui grid" style="margin-top: 0px">
+            <p >当前位置：历史数据查询</p>
+        </div>
+<!--        <div class="row">-->
+<!--            <form th:action="@{'/list/historyData/query/'+${adminId}}">-->
+<!--                <div class="col-md-4" style="padding-left:2%">-->
+<!--                    <label>开始时间：</label>-->
+<!--                    <input name="date1" type="text" class="demo-input" placeholder="请选择日期" id="test1">-->
+<!--                    <script>-->
+<!--                        lay('#version').html('-v' + laydate.v);-->
+<!--                        //执行一个laydate实例-->
+<!--                        laydate.render({-->
+<!--                            elem: '#test1' //指定元素-->
+<!--                            , type: 'datetime'-->
+<!--                        });-->
+<!--                    </script>-->
+<!--                </div>-->
+<!--                <div class="col-md-4" style="padding-left:2%">-->
+<!--                    <label>结束时间：</label>-->
+<!--                    <input name="date2" type="text" class="demo-input" placeholder="请选择日期" id="test2">-->
+<!--                    <script>-->
+<!--                        lay('#version').html('-v' + laydate.v);-->
+<!--                        //执行一个laydate实例-->
+<!--                        laydate.render({-->
+<!--                            elem: '#test2' //指定元素-->
+<!--                            , type: 'datetime'-->
+<!--                        });-->
+<!--                    </script>-->
+<!--                </div>-->
+<!--                <div class="col-md-3">-->
+<!--                    <input type="submit" class="btn btn-primary" value="确定"-->
+<!--                           style="margin-left:5%; padding: 2% 10% 2% 10%; font-size: 18px;color: #fff;">-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+
+<!--        <div class="ui placeholder segment">-->
+<!--            <div class="datecss1 row">-->
+<!--                <div class="col-md-2">查询的时间段为：</div>-->
+<!--                <p th:text="${date1}" class="col-md-4" id="p1" style="float:left;"></p>-->
+<!--                <p th:text="${date2}" class="col-md-4" id="p2"></p>-->
+<!--            </div>-->
+<!--            <p th:text="${msg}" th:if="${not #strings.isEmpty(msg)}" style="color: red;text-align: center; font-size: 14px"></p>-->
+<!--            <table id="tab" class="table table-bordered css1" style="font-size: 14px;">-->
+<!--                <tr class="active">-->
+<!--                    <th>姓名</th>-->
+<!--                    <th>健康码</th>-->
+<!--                    <th>行程码</th>-->
+<!--                    <th>核酸结果</th>-->
+<!--                    <th>上传时间</th>-->
+<!--                </tr>-->
+<!--                <tbody th:each="user:${users}">-->
+<!--                <tr>-->
+<!--                    <td th:text="${user.name}" rowspan="2"></td>-->
+<!--                    <td th:utext="${user.healthMessage}+'<br>'+${user.healthName}+'<br>'+${user.healthIdCard}+'<br>'"></td>-->
+<!--                    <td th:utext="${user.itineraryPhone}+'<br>'+${user.itineraryTime}+'<br>'+${user.itineraryMessage}+'<br>'"></td>-->
+<!--                    <td th:utext="${user.covid19Time}+'<br>'+${user.covid19Hospital}+'<br>'+${user.covid19Name}+'<br>'+${user.covid19IdCard}+'<br>'"></td>-->
+<!--                    <td th:text="${user.getDayTime()}" rowspan="2"></td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td th:text="${user.healthInfo}" th:class="${user.healthInfo=='绿码'?'success':'error'}"></td>-->
+<!--                    <td th:text="${user.itineraryInfo}" th:class="${(user.itineraryInfo=='行程码带*'||user.itineraryInfo=='识别异常')?'error':'success'}"></td>-->
+<!--                    <td th:text="${user.covid19Info}" th:class="${user.covid19Info=='阴性核酸检测小于48小时'?'success':'error'}"></td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--        </div>-->
+
+<!--        <div id="demo0"></div>-->
+<!--        <div id="demo1"></div>-->
+<!--    </div>-->
+
+        <!-- 选择日期-->
+        <div style="padding-top: 30px">
+            <span style="margin-right: 20px">请选择查询的起止日期</span>
+            <el-date-picker
+                    v-model="dateScope"
+
+                    type="daterange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
+            </el-date-picker>
+            <el-button type="primary" @click="doSearch" icon="el-icon-search" style="margin-left: 10px">查询</el-button>
+        </div>
+        <!-- 数据表格-->
+        <div class="ui placeholder segment">
+            <div class="col-md-12 column">
+                <input type="hidden" name="dep" th:value="${department.getAbbreviation()}">
+                <table class="ui celled structured table" style="font-size: 14px;text-align: center">
+
+                    <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>健康码</th>
+                        <th>行程码</th>
+                        <th>核酸结果</th>
+                        <th>上传时间</th>
+                        <th>详情</th>
+                    </tr>
+                    </thead>
+
+                    <tbody v-for="user in dataList">
+                    <tr>
+                        <td rowspan="2">{{user.name}}</td>
+                        <td>{{user.healthTime}}<br>{{user.healthMessage}}<br>{{user.healthName}}<br>{{user.healthIdCard}}
+                        </td>
+                        <td>{{user.itineraryPhone}}<br>{{user.itineraryTime}}<br>{{user.itineraryMessage}}</td>
+                        <td>{{user.covid19Time}}<br>{{user.covid19Hospital}}<br>{{user.covid19Result}}<br>{{user.covid19Name}}<br>{{user.covid19IdCard}}
+                        </td>
+                        <td rowspan="2">{{user.dayTime}}</td>
+                        <td rowspan="2">
+                            <a class="ui blue large label" :href="'/list/jsjxy/detail/' + user.id">详情</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td name="health" :class="[user.healthInfo=='绿码'?'positive':'negative']">{{user.healthInfo}}</td>
+                        <td name="itinerary"
+                            :class="[(user.itineraryInfo=='行程码带*' || user.itineraryInfo=='识别异常')?'negative':'positive']">
+                            {{user.itineraryInfo}}
+                        </td>
+                        <td name="covid19" :class="[user.covid19Info=='阴性核酸检测小于48小时'?'positive':'negative']">
+                            {{user.covid19Info}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div style="display: flex;justify-content: flex-end;margin-top: 10px">
+                    <el-pagination
+                            background
+                            layout="prev, pager, next,total"
+                            @current-change="currentChange"
+                            :total="total">
+                    </el-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--获取当前时间和前十四天的时间-->
+<!--    <script>-->
+<!--        // 今天-->
+<!--        var thisDate = new Date();-->
+<!--        // 前14天-->
+<!--        var preDate = new Date(thisDate.getTime() - 14*24 * 60 * 60 * 1000); -->
+<!--        var date1 = jutils.formatDate(new Date(preDate),"YYYY-MM-DD HH:ii:ss");-->
+<!--        var date2 = jutils.formatDate(new Date(thisDate),"YYYY-MM-DD HH:ii:ss");-->
+<!--        document.getElementById("test1").value = date1;-->
+<!--        document.getElementById("test2").value = date2;-->
+<!--    </script>-->
+</body>
+
+<script>
+    var app1 = new Vue({
+        el:"#app1",
+        data:{
+            currentPage:1,
+            size:10,
+            total:0,
+            dateScope:[],
+            dataList:[]
+        },
+        mounted(){
+            this.initDataList();
+        },
+        methods:{
+            initDataList(){
+                let path = window.location.pathname;
+                let department = path.split('/')[3];
+                axios.get('http://localhost:8080/getHistoryData?dep='+department
+                            +"&beginDate="+ `${this.dateScope.length==2?this.dateScope[0].getTime():''}`
+                            +"&endDate="+ `${this.dateScope.length==2?this.dateScope[1].getTime():''}`
+                            +"&currentPage="+this.currentPage+"&size="+this.size).then(resp=>{
+                    this.dataList = resp.data.data;
+                    this.total = resp.data.total;
+                })
+            },
+            doSearch(){
+                this.currentPage=1;
+                this.initDataList();
+                console.log(this.dateScope.length)
+            },
+            currentChange(page) {
+                this.currentPage = page;
+                this.initDataList();
+            }
+        }
+    })
+</script>
+
+</html>
