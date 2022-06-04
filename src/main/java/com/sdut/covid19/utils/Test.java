@@ -1,10 +1,9 @@
 package com.sdut.covid19.utils;
 
-import com.sun.javaws.IconUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+
 
 /**
  * @author 小王造轮子

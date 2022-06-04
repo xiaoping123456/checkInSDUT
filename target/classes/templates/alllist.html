@@ -99,7 +99,7 @@
         methods:{
             query(num){//查询所有
                 that = this
-                url = "http://localhost:8080/list/query/" + num
+                url = "http://43.138.66.201:8080/list/query/" + num
                 axios.get(url)
                     .then(function(response){
                         that.allList = response.data.records

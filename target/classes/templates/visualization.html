@@ -22,8 +22,10 @@
     <script th:src="@{/js/province/shandong.js}"></script>
     <!--semantic-ui-->
     <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/js/axios.min.js"></script>
     <script src="/js/vue.js"></script>
+    <!--    引入图标库-->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
@@ -83,40 +85,69 @@
 
 <body>
     <!--主容器-->
-    <div class="container">
+    <div class="container" id="app1">
 
         <div><img class="ui fluid image" th:src="@{/img/top.jpg}"></div>
 
         <!--导航部分-->
         <div style="margin-top: 20px">
             <div>
-                <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"
-                   th:href="@{'/list/'+${adminId}}">今日入校详情</a>
-                <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"
-                   th:href="@{'/filedToday/'+${adminId}}">今日审核未通过详情</a>
-                <a class="ui button" type="button" style="background-color: #54afea"
-                   th:href="@{'/goNotSubmitInToday/'+${adminId}}">今日未提交名单</a>
-                <a class="ui button" type="button" style="float: right;background-color: #e593d4"
-                   th:href="@{'/goListManager/'+${adminId}}">名单管理</a>
+                <!--            今日详情菜单-->
+                <el-dropdown style="margin-right: 10px;" size="small">
+                    <el-button type="primary" style="width: 150px">
+                        今日详情 <i style="float:right;" class="fa" >&#xf107</i>
+                    </el-button>
+                    <template #dropdown>
+                        <el-dropdown-menu style="max-width: 150px">
+                            <el-dropdown-item >
+                                <a style="color: #409EFF;font-weight: 600" th:href="@{'/list/'+${adminId}}">今日入校详情</a>
+                            </el-dropdown-item>
+                            <el-dropdown-item >
+                                <a style="color: #409EFF;font-weight: 600"
+                                   th:href="@{'/filedToday/'+${adminId}}">今日审核未通过详情</a>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                                <a style="color: #409EFF;font-weight: 600"
+                                   th:href="@{'/goNotSubmitInToday/'+${adminId}}">今日未提交名单详情</a>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
+                <el-button type="primary" style="width: 150px;margin-right: 10px;">
+                    <a style="color: #ffffff" th:href="@{'/list/historyData/'+${adminId}}">历史数据详情</a>
+                </el-button>
+                <!--            数据可视化菜单-->
+                <el-dropdown style="margin-right: 10px" size="small">
+                    <el-button type="primary" style="width: 150px">
+                        数据可视化 <i style="float:right;" class="fa" >&#xf107</i>
+                    </el-button>
+                    <template #dropdown>
+                        <el-dropdown-menu style="width: 150px">
+                            <el-dropdown-item>
+                                <a style="color: #409EFF;font-weight: 600"
+                                   th:href="@{'/toSubmitDataCount/'+${adminId}}">提交数据统计</a>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                                <a style="color: #409EFF;font-weight: 600"
+                                   th:href="@{'/toWayData/'+${adminId}}">到达或途径统计</a>
+                            </el-dropdown-item>
+                            <el-dropdown-item >
+                                <a style="color: #409EFF;font-weight: 600"
+                                   th:href="@{'/list/visualization/'+${adminId}}">历史数据可视化</a>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
+
+                <el-button type="info" style="float: right">
+                    <a style="color: #ffffff" th:href="@{/logout}">退出</a>
+                </el-button>
+                <el-button type="warning" style="float: right;margin-right: 10px;">
+                    <a style="color: #ffffff"  th:href="@{'/goListManager/'+${adminId}}">名单管理</a>
+                </el-button>
             </div>
             <div style="margin-top: 20px;display: flex;justify-content: space-between">
-                <div>
-                    <a th:href="@{'/list/historyData/'+${adminId}}" class="ui button" type="button"
-                       style="margin-right: 20px;background-color: #67e25e">历史数据详情</a>
-                    <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e"
-                       th:href="@{'/toSubmitDataCount/'+${adminId}}">提交数据统计</a>
-                    <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e"
-                       th:href="@{'/toWayData/'+${adminId}}">“到达或途径”统计</a>
-                    <a th:href="@{'/list/visualization/'+${adminId}}" class="ui button" type="button"
-                       style="margin-right: 20px;background-color: #67e25e">历史数据可视化</a>
-                </div>
-                <div>
-                    <h4 th:text=" ${department.getDepartName()}+' : '+${nickName} " style=""></h4>
-                    <a class="ui button" type="button" style="float:right"
-                       th:href="@{/logout}">退出</a>
-                </div>
             </div>
-
         </div>
 
         <div class="ui grid" style="margin-top: 10px;padding-bottom: 30px">
@@ -175,6 +206,14 @@
             <div id="provinceMap" style="height: 450%;width:100%"></div>
         </div>
     </div>
+
+    <script>
+        var app1 = new Vue({
+            el:"#app1",
+
+        })
+    </script>
+
     <!-- 控制元素显示 -->
     <script>
         var box = document.getElementById('box');

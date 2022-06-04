@@ -75,8 +75,8 @@ public class ImageController {
         //使用Thumbnails压缩图片并上传到指定位置
         if (!healthImg.isEmpty()) {
             String originalFilename = currentTimeMillis + "1.png";
-            healthImgPath = "D:/imgfiles/" + originalFilename; //win
-//            healthImgPath = property + "/img/" + originalFilename; //linux图片路径
+//            healthImgPath = "D:/imgfiles/" + originalFilename; //win
+            healthImgPath = property + "/img/" + originalFilename; //linux图片路径
 //            healthImg.transferTo(new File(healthImgPath));
             Thumbnails.of(healthImg.getInputStream()).scale(1f).outputQuality(0.2f).toFile(healthImgPath);
 
@@ -84,8 +84,8 @@ public class ImageController {
 
         if (!itineraryImg.isEmpty()) {
             String originalFilename = currentTimeMillis + "2.png";
-            itineraryImgPath = "D:/imgfiles/" + originalFilename; //win
-//            itineraryImgPath = property + "/img/" + originalFilename; //linux图片路径
+//            itineraryImgPath = "D:/imgfiles/" + originalFilename; //win
+            itineraryImgPath = property + "/img/" + originalFilename; //linux图片路径
 //            itineraryImg.transferTo(new File(itineraryImgPath));
             Thumbnails.of(itineraryImg.getInputStream()).scale(1f).outputQuality(0.1f).toFile(itineraryImgPath);
         }

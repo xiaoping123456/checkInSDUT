@@ -10,7 +10,7 @@
     <title>山东理工大学入校信息核验系统</title>
     <!--semantic-ui-->
     <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/js/axios.min.js"></script>
     <script src="/js/vue.js"></script>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
@@ -141,7 +141,7 @@
         },
         methods: {
             getIDCode() {
-                axios.get('http://localhost:8080/super/generateIDCode').then(resp => {
+                axios.get('http://43.138.66.201:8080/super/generateIDCode').then(resp => {
                     this.form.id = resp.data;
                 })
             },

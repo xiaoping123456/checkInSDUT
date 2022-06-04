@@ -10,7 +10,7 @@
     <title>山东理工大学入校信息核验系统</title>
     <!--semantic-ui-->
     <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/js/axios.min.js"></script>
     <script src="/js/vue.js"></script>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
@@ -161,10 +161,10 @@
         },
         methods:{
             toAddAdmin(){
-                window.open('http://localhost:8080/super/add')
+                window.open('http://43.138.66.201:8080/super/add')
             },
             initList(){
-                axios.get('http://localhost:8080/getAdmins?currentPage='+this.currentPage+"&size="+this.size).then(resp=>{
+                axios.get('http://43.138.66.201:8080/getAdmins?currentPage='+this.currentPage+"&size="+this.size).then(resp=>{
                     if (resp){
                         this.allAdmin=resp.data.data;
                         this.total=resp.data.total;
@@ -181,7 +181,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    axios.delete('http://localhost:8080/super/deleteAdmin?id='+data.id).then(resp=>{
+                    axios.delete('http://43.138.66.201:8080/super/deleteAdmin?id='+data.id).then(resp=>{
                         if(resp.data==true){
                             this.initList();
                             this.$message.success('删除成功');
@@ -203,7 +203,7 @@
             },
             doUpdate(){
                 console.log(this.admin)
-                axios.post('http://localhost:8080/super/updateAdmin',this.admin).then(resp=>{
+                axios.post('http://43.138.66.201:8080/super/updateAdmin',this.admin).then(resp=>{
                     if (resp){
                         if(resp.data==true){
                             this.$message.success('更新成功');
@@ -225,7 +225,7 @@
                 formData.append("id",this.admin.id);
                 formData.append("newPassword",this.newPassword);
                 formData.forEach((value,key)=>{params[key]=value})
-                axios.post('http://localhost:8080/super/resetPassword',params).then(resp=>{
+                axios.post('http://43.138.66.201:8080/super/resetPassword',params).then(resp=>{
                     if (resp.data==true){
                         this.$message.success('密码重置成功');
                         this.dialogVisibleForReset=false;
