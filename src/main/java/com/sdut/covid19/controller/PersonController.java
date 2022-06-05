@@ -75,9 +75,14 @@ public class PersonController {
     @GetMapping("/getAllPersonInDep")
     public Map<String,Object> getAllPersonInDep(@RequestParam(value = "dep",required = true)String dep,
                                                 @RequestParam(value = "currentPage",defaultValue = "1")Integer currentPage,
-                                                @RequestParam(value = "size",defaultValue = "10")Integer size){
+                                                @RequestParam(value = "size",defaultValue = "10")Integer size,
+                                                @RequestParam(value = "keyword",defaultValue = "")String keyword){
         Page<Person> page = new Page<>(currentPage,size);
-        Page<Person> personPage = personMapper.selectPage(page, new QueryWrapper<Person>().eq("department_id", dep));
+        QueryWrapper<Person> wrapper = new QueryWrapper<Person>().eq("department_id", dep);
+        if (!keyword.equals("")){
+            wrapper.and(wr->wr.like("id",keyword).or().like("name",keyword));
+        }
+        Page<Person> personPage = personMapper.selectPage(page, wrapper);
         Map<String, Object> res = new HashMap<>();
         res.put("data",personPage.getRecords());
         res.put("total",personPage.getTotal());

@@ -13,11 +13,13 @@ import java.text.SimpleDateFormat;
 public class Test {
 
     public static void main(String[] args) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        long parse = sdf.parse("2022-01-01").getTime();
-        long time = sdf.parse("2037-12-31").getTime();
-        System.out.println(parse);
-        System.out.println(time);
+        String time = "2022.06.05 172620";
+        String time2 = time.replace(" ", "");
+        StringBuffer buffer = new StringBuffer(time2);
+        buffer.insert(10," ");
+        buffer.insert(13,":");
+        buffer.insert(16,":");
+        System.out.println(buffer.toString());
     }
 
 }

@@ -26,14 +26,15 @@
             <div class="column">
                 <div class="ui form">
                     <form th:action="@{/upload(dep=${department.getAbbreviation()})}" enctype="multipart/form-data"
-                          method="post">
+                          method="post" onsubmit="submitEvent()">
                         <div class="field">
                             <label th:text="'单位：'+${department.getDepartName()}"></label>
                         </div>
                         <div class="field">
                             <label>姓名</label>
                             <div class="ui left icon input">
-                                <input type="text" placeholder="name" name="name" required>
+                                <input type="text" placeholder="name" name="name" required
+                                       id="name">
                                 <i class="user icon"></i>
                             </div>
                         </div>
@@ -77,6 +78,15 @@
 </div>
 
 <script>
+
+    if (window.localStorage.getItem("submitName")){
+        document.getElementById("name").value=window.localStorage.getItem("submitName");
+    }
+
+    function submitEvent() {
+        var submitName = document.getElementById("name").value;
+        window.localStorage.setItem("submitName",submitName);
+    }
 
     function showHealthImg() {
         var file = document.getElementById('healthImg_file').files[0];

@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!--兼容IE-->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer" />
     <!--网页每隔5min自动刷新-->
-<!--    <meta http-equiv="Refresh" content="300">-->
+    <meta http-equiv="Refresh" content="300">
     <title>首页</title>
     <!--semantic-ui-->
     <link href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
@@ -85,12 +86,12 @@
 
 <body>
     <!--主容器-->
-    <div class="container" id="app1">
+    <div class="container" >
 
         <div><img class="ui fluid image" th:src="@{/img/top.jpg}"></div>
 
         <!--导航部分-->
-        <div style="margin-top: 20px">
+        <div style="margin-top: 20px" id="app1">
             <div>
                 <!--            今日详情菜单-->
                 <el-dropdown style="margin-right: 10px;" size="small">
@@ -207,454 +208,455 @@
         </div>
     </div>
 
-    <script>
-        var app1 = new Vue({
-            el:"#app1",
 
-        })
-    </script>
 
-    <!-- 控制元素显示 -->
-    <script>
-        var box = document.getElementById('box');
-        var hide = document.getElementById('echarts03');
-        function f1() {
-            box.style.display = "block";
-            hide.style.display = "none";
-            $(window).trigger('resize');
-        }
-        function f2() {
-            box.style.display = "none";
-            hide.style.display = "block";
-            $(window).trigger('resize');
-        }
-    </script>
-    <!-- 控制Div的显示和隐藏 -->
-    <script>
-        var box = document.getElementById('box');
+</body>
+<script>
+    var app1 = new Vue({
+        el:"#app1",
+
+    })
+</script>
+
+<!-- 控制元素显示 -->
+<script>
+    var box = document.getElementById('box');
+    var hide = document.getElementById('echarts03');
+    function f1() {
+        box.style.display = "block";
+        hide.style.display = "none";
+        $(window).trigger('resize');
+    }
+    function f2() {
+        box.style.display = "none";
+        hide.style.display = "block";
+        $(window).trigger('resize');
+    }
+</script>
+<!-- 控制Div的显示和隐藏 -->
+<script>
+    var box = document.getElementById('box');
+    $("#echarts02").hide();
+    $("#echarts03").hide();
+    function fun1() {
+        $("#echarts01").show();
         $("#echarts02").hide();
         $("#echarts03").hide();
-        function fun1() {
-            $("#echarts01").show();
-            $("#echarts02").hide();
-            $("#echarts03").hide();
-            box.style.display = "none";
-            $(window).trigger('resize');
-        }
-        function fun2() {
-            $("#echarts01").hide();
-            $("#echarts02").show();
-            $("#echarts03").hide();
-            box.style.display = "none";
-            $(window).trigger('resize');
-        }
-        function fun3() {
-            $("#echarts01").hide();
-            $("#echarts02").hide();
-            $("#echarts03").show();
-            box.style.display = "none";
-            $(window).trigger('resize');
-        }
-    </script>
-    <!--获取当前时间和前十四天的时间-->
-    <script>
-        // 今天
-        var thisDate = new Date();
-        // 前14天
-        var preDate = new Date(thisDate.getTime() - 14*24 * 60 * 60 * 1000); 
-        var date1 = jutils.formatDate(new Date(preDate),"YYYY-MM-DD");
-        var date2 = jutils.formatDate(new Date(thisDate),"YYYY-MM-DD");
-        document.getElementById("test1").value = date1;
-        document.getElementById("test2").value = date2;
-    </script>
+        box.style.display = "none";
+        $(window).trigger('resize');
+    }
+    function fun2() {
+        $("#echarts01").hide();
+        $("#echarts02").show();
+        $("#echarts03").hide();
+        box.style.display = "none";
+        $(window).trigger('resize');
+    }
+    function fun3() {
+        $("#echarts01").hide();
+        $("#echarts02").hide();
+        $("#echarts03").show();
+        box.style.display = "none";
+        $(window).trigger('resize');
+    }
+</script>
+<!--获取当前时间和前十四天的时间-->
+<script>
+    // 今天
+    var thisDate = new Date();
+    // 前14天
+    var preDate = new Date(thisDate.getTime() - 14*24 * 60 * 60 * 1000);
+    var date1 = jutils.formatDate(new Date(preDate),"YYYY-MM-DD");
+    var date2 = jutils.formatDate(new Date(thisDate),"YYYY-MM-DD");
+    document.getElementById("test1").value = date1;
+    document.getElementById("test2").value = date2;
+</script>
 
-    <!-- 柱状图 显示每个时间段的提交次数 -->
-    <script th:inline="javascript">
-        var chartDom = document.getElementById('echarts01');
-        var myChart01 = echarts.init(chartDom);
-        var arr = [[${arr}]];
-        var option = {
-            color:'#1991ec',
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'shadow'
-                }
-            },
-            title: {
-                text: [[${title1Str}]],
-            },
-            xAxis: {
-                type: 'category',
-                name:'时间段',
-                axisLabel:{
-                    show:true,
-                    interval:0,
-                    // rotate:45,
-                },
-                data: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10', '10-11', '11-12',
-                    '12-13', '13-14', '14-15', '15-16', '16-17', '17-18', '18-19', '19-20','20-21','21-22','22-23','23-0'],
-            },
-            yAxis: {
-                type: 'value',
-                name: '提交人次',
-            },
-            series: [
-                {
-                    name:'提交人次',
-                    data: arr,
-                    type: 'bar'
-                }
-            ]
-        };
-        option && myChart01.setOption(option);
-
-        $(window).resize(myChart01.resize);
-
-    </script>
-    <!-- 折线图 显示每天提交的变化趋势 -->
-    <script th:inline="javascript">
-
-        var dates = [[${dates}]];
-        var datesArr = [[${datesArr}]];
-        var chartDom = document.getElementById('echarts02');
-        var myChart02 = echarts.init(chartDom);
-        var option;
-
-        option = {
-            color: 'rgb(92,123,217)',
-            title: {
-                text: [[${title2Str}]]
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {},
-            toolbox: {
-                show: true,
-                feature: {
-                    dataZoom: {
-                        yAxisIndex: 'none'
-                    },
-                    dataView: { readOnly: false },
-                    magicType: { type: ['line', 'bar'] },
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            xAxis: {
-                type: 'category',
-                name: '日期',
-                boundaryGap: false,
-                data: dates,
-                axisLabel:{
-                    interval:0,
-                    rotate:45,
-                }
-            },
-            yAxis: {
-                type: 'value',
-                name: '提交人次',
-                // axisLabel: {
-                //     formatter: '{value}人次'
-                // }
-            },
-            series: [
-                {
-                    name: '提交人次',
-                    type: 'line',
-                    data: datesArr,
-                    markPoint: {
-                        data: [
-                            { type: 'max', name: 'Max' },
-                            { type: 'min', name: 'Min' }
-                        ]
-                    },
-                    markLine: {
-                        data: [{ type: 'average', name: 'Avg' }]
-                    }
-                }
-            ]
-        };
-        option && myChart02.setOption(option);
-        $(window).resize(myChart02.resize);
-    </script>
-
-    <!-- 中国地图 -->
-    <script>
-        var chinaJson = JSON.parse('[(${chinaJson})]');
-        var data=[];
-        for(var key in chinaJson){
-            data.push({name:key,value:chinaJson[key]});
-        }
-        console.log(data)
-        function randomValue() {
-            return Math.round(Math.random() * 1000);
-        }
-        var myChart03 = echarts.init(document.getElementById('echarts03'));
-        // var data = [
-        //     { name: '北京', value: randomValue() },
-        //     { name: '天津', value: randomValue() },
-        //     { name: '上海', value: randomValue() },
-        //     { name: '重庆', value: randomValue() },
-        //     { name: '河北', value: randomValue() },
-        //     { name: '河南', value: randomValue() },
-        //     { name: '云南', value: randomValue() },
-        //     { name: '辽宁', value: randomValue() },
-        //     { name: '黑龙江', value: randomValue() },
-        //     { name: '湖南', value: randomValue() },
-        //     { name: '安徽', value: randomValue() },
-        //     { name: '山东', value: randomValue() },
-        //     { name: '新疆', value: randomValue() },
-        //     { name: '江苏', value: randomValue() },
-        //     { name: '浙江', value: randomValue() },
-        //     { name: '江西', value: randomValue() },
-        //     { name: '湖北', value: randomValue() },
-        //     { name: '广西', value: randomValue() },
-        //     { name: '甘肃', value: randomValue() },
-        //     { name: '山西', value: randomValue() },
-        //     { name: '内蒙古', value: randomValue() },
-        //     { name: '陕西', value: randomValue() },
-        //     { name: '吉林', value: randomValue() },
-        //     { name: '福建', value: randomValue() },
-        //     { name: '贵州', value: randomValue() },
-        //     { name: '广东', value: randomValue() },
-        //     { name: '青海', value: randomValue() },
-        //     { name: '西藏', value: randomValue() },
-        //     { name: '四川', value: randomValue() },
-        //     { name: '宁夏', value: randomValue() },
-        //     { name: '海南', value: randomValue() },
-        //     { name: '台湾', value: randomValue() },
-        //     { name: '香港', value: randomValue() },
-        //     { name: '澳门', value: randomValue() }
-        // ];
-
-        option = {
-            title: {
-                text: '全国行程情况',
-                x: 'center'
-            },
-            // 鼠标悬停展示数据
-            tooltip: {
-                trigger: 'item',
-                formatter: function (params) {
-                    if(isNaN(params.value))
-                        return params.name + ":" + "0";
-                    else
-                        return params.name + ":" + params.value;
-                }
-            },
-            // geo 地理坐标组件，可以被series绑定
-            geo: {
-                map: 'china', //使用registerMap属性注册的名字
-                roam: false, //是否开启缩放，默认不开启
-                zoom: 1.25, //当前缩放比例
-                // label可以设置图形上的文本标签
-                label: {
-                    // normal为正常状态下
-                    show: true,
-                },
-                itemStyle: {
-                    normal: {
-                        borderColor: '#389BB7',
-                        areaColor: '#fff',
-                    },
-                    emphasis: {
-                        areaColor: '#389BB7',
-                        borderWidth: 0,
-                        // 设置阴影突出范围
-                        shadowOffsetY: 5,
-                        shadowOffsetX: 5,
-                        // 设置阴影颜色
-                        shadowColor: 'rgba(0, 0, 0, 0.5)',
-                        // 设置阴影模糊大小
-                        shadowBlur: 5,
-                    }
-                },
-            },
-            series: [{
-                name: "人次",
-                geoIndex: 0,
-                type: 'map',
-                map: 'china',
-                // hoverAnimation:true,
-                data: data,
-            }],
-            // visualMap由dataRange转换而来
-            visualMap: [{
-                min: 0,
-                max: 100,
-                realtime: true,
-                calculable: true,
-                text: ['高', '低'],
-                inRange: {
-                    color: ['#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026'],
-                    // color: ['#ffffbf','#e0f3f8','#abd9e9','#74add1','#4575b4','#313695'],
-                },
-
-            }]
-        };
-        option && myChart03.setOption(option);
-        $(window).resize(myChart03.resize);
-    </script>
-    <!-- 各省地图 -->
-    <script type="text/javascript">
-        function showCity(city,data) {
-            document.getElementById("province").innerHTML = "当前位置：中国" + " -> " + city;
-            // var data = [
-            //     // { name: "德州市", value: randomValue() },
-            //     { name: "济南市", value: randomValue() },
-            //     { name: "聊城市", value: randomValue() },
-            //     { name: "淄博市", value: randomValue() },
-            //     { name: "威海市", value: randomValue() },
-            //     { name: "青岛市", value: randomValue() },
-            //     { name: "日照市", value: randomValue() },
-            //     { name: "临沂市", value: randomValue() },
-            //     { name: "济宁市", value: randomValue() },
-            //     { name: "菏泽市", value: randomValue() },
-            //     { name: "泰安市", value: randomValue() },
-            //     { name: "枣庄市", value: randomValue() },
-            //     { name: "东营市", value: randomValue() },
-            //     { name: "潍坊市", value: randomValue() },
-            //     { name: "滨州市", value: randomValue() },
-            //     { name: "烟台市", value: randomValue() },
-            // ];
-            // https://geo.datav.aliyun.com/areas_v3/bound/220000_full.json
-            var s = [{ name: '山东', value: '370000' },
-                { name: '黑龙江', value: '230000' },
-                { name: '内蒙古', value: '150000' },
-                { name: '吉林', value: '220000' },
-                { name: '辽宁', value: '210000' },
-                { name: '河北', value: '130000' },
-                { name: '北京', value: '110000' },
-                { name: '天津', value: '120000' },
-                { name: '山西', value: '140000' },
-                { name: '江苏', value: '320000' },
-                { name: '浙江', value: '330000' },
-                { name: '安徽', value: '340000' },
-                { name: '福建', value: '350000' },
-                { name: '江西', value: '360000' },
-                { name: '河南', value: '410000' },
-                { name: '湖北', value: '420000' },
-                { name: '湖南', value: '430000' },
-                { name: '广东', value: '440000' },
-                { name: '海南', value: '460000' },
-                { name: '四川', value: '510000' },
-                { name: '贵州', value: '520000' },
-                { name: '云南', value: '530000' },
-                { name: '陕西', value: '610000' },
-                { name: '甘肃', value: '620000' },
-                { name: '青海', value: '630000' },
-                { name: '广西', value: '450000' },
-                { name: '西藏', value: '540000' },
-                { name: '宁夏', value: '640000' },
-                { name: '新疆', value: '650000' },
-                { name: '上海', value: '310000' },
-                { name: '重庆', value: '500000' },
-                { name: '香港', value: '810000' },
-                { name: '澳门', value: '820000' },
-                { name: '台湾', value: '710000' },
-
-            ];
-            var adcode;
-            for (var i = 0; i < s.length; i++) {
-                if (s[i].name == city) { adcode = s[i].value; break; }
+<!-- 柱状图 显示每个时间段的提交次数 -->
+<script th:inline="javascript">
+    var chartDom = document.getElementById('echarts01');
+    var myChart01 = echarts.init(chartDom);
+    var arr = [[${arr}]];
+    var option = {
+        color:'#1991ec',
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
             }
-            $.get("https://geo.datav.aliyun.com/areas_v3/bound/" + adcode + "_full.json", function (provinceJson) {
-                echarts.registerMap(city, provinceJson);
-                var mychart = echarts.init(document.getElementById('provinceMap'));
-                option = {
-                    title: {
-                        text: city + '行程情况',
-                        x: 'center'
+        },
+        title: {
+            text: [[${title1Str}]],
+        },
+        xAxis: {
+            type: 'category',
+            name:'时间段',
+            axisLabel:{
+                show:true,
+                interval:0,
+                // rotate:45,
+            },
+            data: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10', '10-11', '11-12',
+                '12-13', '13-14', '14-15', '15-16', '16-17', '17-18', '18-19', '19-20','20-21','21-22','22-23','23-0'],
+        },
+        yAxis: {
+            type: 'value',
+            name: '提交人次',
+        },
+        series: [
+            {
+                name:'提交人次',
+                data: arr,
+                type: 'bar'
+            }
+        ]
+    };
+    option && myChart01.setOption(option);
+
+    $(window).resize(myChart01.resize);
+
+</script>
+<!-- 折线图 显示每天提交的变化趋势 -->
+<script th:inline="javascript">
+
+    var dates = [[${dates}]];
+    var datesArr = [[${datesArr}]];
+    var chartDom = document.getElementById('echarts02');
+    var myChart02 = echarts.init(chartDom);
+    var option;
+
+    option = {
+        color: 'rgb(92,123,217)',
+        title: {
+            text: [[${title2Str}]]
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {},
+        toolbox: {
+            show: true,
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                dataView: { readOnly: false },
+                magicType: { type: ['line', 'bar'] },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            name: '日期',
+            boundaryGap: false,
+            data: dates,
+            axisLabel:{
+                interval:0,
+                rotate:45,
+            }
+        },
+        yAxis: {
+            type: 'value',
+            name: '提交人次',
+            // axisLabel: {
+            //     formatter: '{value}人次'
+            // }
+        },
+        series: [
+            {
+                name: '提交人次',
+                type: 'line',
+                data: datesArr,
+                markPoint: {
+                    data: [
+                        { type: 'max', name: 'Max' },
+                        { type: 'min', name: 'Min' }
+                    ]
+                },
+                markLine: {
+                    data: [{ type: 'average', name: 'Avg' }]
+                }
+            }
+        ]
+    };
+    option && myChart02.setOption(option);
+    $(window).resize(myChart02.resize);
+</script>
+
+<!-- 中国地图 -->
+<script>
+    var chinaJson = JSON.parse('[(${chinaJson})]');
+    var data=[];
+    for(var key in chinaJson){
+        data.push({name:key,value:chinaJson[key]});
+    }
+    console.log(data)
+    function randomValue() {
+        return Math.round(Math.random() * 1000);
+    }
+    var myChart03 = echarts.init(document.getElementById('echarts03'));
+    // var data = [
+    //     { name: '北京', value: randomValue() },
+    //     { name: '天津', value: randomValue() },
+    //     { name: '上海', value: randomValue() },
+    //     { name: '重庆', value: randomValue() },
+    //     { name: '河北', value: randomValue() },
+    //     { name: '河南', value: randomValue() },
+    //     { name: '云南', value: randomValue() },
+    //     { name: '辽宁', value: randomValue() },
+    //     { name: '黑龙江', value: randomValue() },
+    //     { name: '湖南', value: randomValue() },
+    //     { name: '安徽', value: randomValue() },
+    //     { name: '山东', value: randomValue() },
+    //     { name: '新疆', value: randomValue() },
+    //     { name: '江苏', value: randomValue() },
+    //     { name: '浙江', value: randomValue() },
+    //     { name: '江西', value: randomValue() },
+    //     { name: '湖北', value: randomValue() },
+    //     { name: '广西', value: randomValue() },
+    //     { name: '甘肃', value: randomValue() },
+    //     { name: '山西', value: randomValue() },
+    //     { name: '内蒙古', value: randomValue() },
+    //     { name: '陕西', value: randomValue() },
+    //     { name: '吉林', value: randomValue() },
+    //     { name: '福建', value: randomValue() },
+    //     { name: '贵州', value: randomValue() },
+    //     { name: '广东', value: randomValue() },
+    //     { name: '青海', value: randomValue() },
+    //     { name: '西藏', value: randomValue() },
+    //     { name: '四川', value: randomValue() },
+    //     { name: '宁夏', value: randomValue() },
+    //     { name: '海南', value: randomValue() },
+    //     { name: '台湾', value: randomValue() },
+    //     { name: '香港', value: randomValue() },
+    //     { name: '澳门', value: randomValue() }
+    // ];
+
+    option = {
+        title: {
+            text: '全国行程情况',
+            x: 'center'
+        },
+        // 鼠标悬停展示数据
+        tooltip: {
+            trigger: 'item',
+            formatter: function (params) {
+                if(isNaN(params.value))
+                    return params.name + ":" + "0";
+                else
+                    return params.name + ":" + params.value;
+            }
+        },
+        // geo 地理坐标组件，可以被series绑定
+        geo: {
+            map: 'china', //使用registerMap属性注册的名字
+            roam: false, //是否开启缩放，默认不开启
+            zoom: 1.25, //当前缩放比例
+            // label可以设置图形上的文本标签
+            label: {
+                // normal为正常状态下
+                show: true,
+            },
+            itemStyle: {
+                normal: {
+                    borderColor: '#389BB7',
+                    areaColor: '#fff',
+                },
+                emphasis: {
+                    areaColor: '#389BB7',
+                    borderWidth: 0,
+                    // 设置阴影突出范围
+                    shadowOffsetY: 5,
+                    shadowOffsetX: 5,
+                    // 设置阴影颜色
+                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    // 设置阴影模糊大小
+                    shadowBlur: 5,
+                }
+            },
+        },
+        series: [{
+            name: "人次",
+            geoIndex: 0,
+            type: 'map',
+            map: 'china',
+            // hoverAnimation:true,
+            data: data,
+        }],
+        // visualMap由dataRange转换而来
+        visualMap: [{
+            min: 0,
+            max: 100,
+            realtime: true,
+            calculable: true,
+            text: ['高', '低'],
+            inRange: {
+                color: ['#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026'],
+                // color: ['#ffffbf','#e0f3f8','#abd9e9','#74add1','#4575b4','#313695'],
+            },
+
+        }]
+    };
+    option && myChart03.setOption(option);
+    $(window).resize(myChart03.resize);
+</script>
+<!-- 各省地图 -->
+<script type="text/javascript">
+    function showCity(city,data) {
+        document.getElementById("province").innerHTML = "当前位置：中国" + " -> " + city;
+        // var data = [
+        //     // { name: "德州市", value: randomValue() },
+        //     { name: "济南市", value: randomValue() },
+        //     { name: "聊城市", value: randomValue() },
+        //     { name: "淄博市", value: randomValue() },
+        //     { name: "威海市", value: randomValue() },
+        //     { name: "青岛市", value: randomValue() },
+        //     { name: "日照市", value: randomValue() },
+        //     { name: "临沂市", value: randomValue() },
+        //     { name: "济宁市", value: randomValue() },
+        //     { name: "菏泽市", value: randomValue() },
+        //     { name: "泰安市", value: randomValue() },
+        //     { name: "枣庄市", value: randomValue() },
+        //     { name: "东营市", value: randomValue() },
+        //     { name: "潍坊市", value: randomValue() },
+        //     { name: "滨州市", value: randomValue() },
+        //     { name: "烟台市", value: randomValue() },
+        // ];
+        // https://geo.datav.aliyun.com/areas_v3/bound/220000_full.json
+        var s = [{ name: '山东', value: '370000' },
+            { name: '黑龙江', value: '230000' },
+            { name: '内蒙古', value: '150000' },
+            { name: '吉林', value: '220000' },
+            { name: '辽宁', value: '210000' },
+            { name: '河北', value: '130000' },
+            { name: '北京', value: '110000' },
+            { name: '天津', value: '120000' },
+            { name: '山西', value: '140000' },
+            { name: '江苏', value: '320000' },
+            { name: '浙江', value: '330000' },
+            { name: '安徽', value: '340000' },
+            { name: '福建', value: '350000' },
+            { name: '江西', value: '360000' },
+            { name: '河南', value: '410000' },
+            { name: '湖北', value: '420000' },
+            { name: '湖南', value: '430000' },
+            { name: '广东', value: '440000' },
+            { name: '海南', value: '460000' },
+            { name: '四川', value: '510000' },
+            { name: '贵州', value: '520000' },
+            { name: '云南', value: '530000' },
+            { name: '陕西', value: '610000' },
+            { name: '甘肃', value: '620000' },
+            { name: '青海', value: '630000' },
+            { name: '广西', value: '450000' },
+            { name: '西藏', value: '540000' },
+            { name: '宁夏', value: '640000' },
+            { name: '新疆', value: '650000' },
+            { name: '上海', value: '310000' },
+            { name: '重庆', value: '500000' },
+            { name: '香港', value: '810000' },
+            { name: '澳门', value: '820000' },
+            { name: '台湾', value: '710000' },
+
+        ];
+        var adcode;
+        for (var i = 0; i < s.length; i++) {
+            if (s[i].name == city) { adcode = s[i].value; break; }
+        }
+        $.get("https://geo.datav.aliyun.com/areas_v3/bound/" + adcode + "_full.json", function (provinceJson) {
+            echarts.registerMap(city, provinceJson);
+            var mychart = echarts.init(document.getElementById('provinceMap'));
+            option = {
+                title: {
+                    text: city + '行程情况',
+                    x: 'center'
+                },
+                // 鼠标悬停展示数据
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function (params) {
+                        if(isNaN(params.value))
+                            return params.name + ":" + "0";
+                        else
+                            return params.name + ":" + params.value;
+                    }
+                },
+                // geo 地理坐标组件，可以被series绑定
+                geo: {
+                    map: city, //使用registerMap属性注册的名字
+                    roam: false, //是否开启缩放，默认不开启
+                    zoom: 1.1, //当前缩放比例
+                    // label可以设置图形上的文本标签
+                    label: {
+                        // normal为正常状态下
+                        show: true,
                     },
-                    // 鼠标悬停展示数据
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: function (params) {
-                            if(isNaN(params.value))
-                                return params.name + ":" + "0";
-                            else
-                                return params.name + ":" + params.value;
+                    itemStyle: {
+                        normal: {
+                            borderColor: '#389BB7',
+                            areaColor: '#fff',
+                        },
+                        emphasis: {
+                            areaColor: '#389BB7',
+                            borderWidth: 0,
+                            // 设置阴影突出范围
+                            shadowOffsetY: 5,
+                            shadowOffsetX: 5,
+                            // 设置阴影颜色
+                            shadowColor: 'rgba(0, 0, 0, 0.5)',
+                            // 设置阴影模糊大小
+                            shadowBlur: 5,
                         }
                     },
-                    // geo 地理坐标组件，可以被series绑定
-                    geo: {
-                        map: city, //使用registerMap属性注册的名字
-                        roam: false, //是否开启缩放，默认不开启
-                        zoom: 1.1, //当前缩放比例
-                        // label可以设置图形上的文本标签
-                        label: {
-                            // normal为正常状态下
-                            show: true,
-                        },
-                        itemStyle: {
-                            normal: {
-                                borderColor: '#389BB7',
-                                areaColor: '#fff',
-                            },
-                            emphasis: {
-                                areaColor: '#389BB7',
-                                borderWidth: 0,
-                                // 设置阴影突出范围
-                                shadowOffsetY: 5,
-                                shadowOffsetX: 5,
-                                // 设置阴影颜色
-                                shadowColor: 'rgba(0, 0, 0, 0.5)',
-                                // 设置阴影模糊大小
-                                shadowBlur: 5,
-                            }
-                        },
+                },
+                series: [{
+                    name: "人次",
+                    geoIndex: 0,
+                    type: 'map',
+                    map: city,
+                    // hoverAnimation:true,
+                    data: data,
+                }],
+                // visualMap由dataRange转换而来
+                visualMap: [{
+                    min: 0,
+                    max: 100,
+                    realtime: true,
+                    calculable: true,
+                    text: ['高', '低'],
+                    inRange: {
+                        color: ['#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026'],
                     },
-                    series: [{
-                        name: "人次",
-                        geoIndex: 0,
-                        type: 'map',
-                        map: city,
-                        // hoverAnimation:true,
-                        data: data,
-                    }],
-                    // visualMap由dataRange转换而来
-                    visualMap: [{
-                        min: 0,
-                        max: 100,
-                        realtime: true,
-                        calculable: true,
-                        text: ['高', '低'],
-                        inRange: {
-                            color: ['#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026'],
-                        },
 
-                    }]
-                };
-                option && mychart.setOption(option);
-                $(window).resize(mychart.resize);
-            });
-        }
-        myChart03.on('click', function (params) {
-            selectedCity = params.name;
-            var t1 = '[[${t1}]]';
-            var t2 = '[[${t2}]]';
-            console.log(t1)
-            console.log(t2)
-               $.ajax({
-                   url:"/list/visualization/query/citydata",
-                   type:"POST",
-                   data:{'selectedCity':selectedCity,'date1':t1,'date2':t2},
-                   success:function (jsonData){
-                       var cityJson = JSON.parse(jsonData);
-                       var data=[];
-                       for(var key in cityJson){
-                           data.push({name:key,value:cityJson[key]});
-                       }
-                       console.log(data)
-                       f1();
-                       showCity(selectedCity,data);
-                   },
-               })
+                }]
+            };
+            option && mychart.setOption(option);
+            $(window).resize(mychart.resize);
         });
-    </script>
-</body>
-
+    }
+    myChart03.on('click', function (params) {
+        selectedCity = params.name;
+        var t1 = '[[${t1}]]';
+        var t2 = '[[${t2}]]';
+        console.log(t1)
+        console.log(t2)
+        $.ajax({
+            url:"/list/visualization/query/citydata",
+            type:"POST",
+            data:{'selectedCity':selectedCity,'date1':t1,'date2':t2},
+            success:function (jsonData){
+                var cityJson = JSON.parse(jsonData);
+                var data=[];
+                for(var key in cityJson){
+                    data.push({name:key,value:cityJson[key]});
+                }
+                console.log(data)
+                f1();
+                showCity(selectedCity,data);
+            },
+        })
+    });
+</script>
 
 </html>

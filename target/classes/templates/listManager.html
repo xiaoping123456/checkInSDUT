@@ -6,7 +6,7 @@
     <!--兼容IE-->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!--网页每隔5min自动刷新-->
-<!--    <meta http-equiv="Refresh" content="300">-->
+    <meta http-equiv="Refresh" content="300">
     <title>山东理工大学入校信息核验系统</title>
     <!--semantic-ui-->
     <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
@@ -97,6 +97,13 @@
                     <el-button type="primary" @click="showImportView">导入成员</el-button>
                     <el-button type="primary" @click="downloadTemplate">下载模板</el-button>
                 </div>
+            </div>
+            <div style="width: 300px;display: flex;justify-content: left">
+                <el-input v-model="keyword"
+                          clearable="true"
+                          placeholder="请输入工号/学号或姓名"></el-input>
+                <el-button type="primary" @click="searchPerson" size="small"
+                           style="margin-left: 8px">搜索</el-button>
             </div>
 
             <!--添加成员的对话框-->
@@ -297,7 +304,8 @@
                 phone1:[{required: true,message: '请输入手机1',trigger: 'blur'}],
                 phone2:[{required: true,message: '请输入手机2',trigger: 'blur'}],
             },
-            fileList:[]
+            fileList:[],
+            keyword:''
         },
         mounted() {
             this.initPersons();
@@ -307,7 +315,7 @@
                 let path = window.location.pathname;
                 let department = path.split('/')[2];
                 axios.get('http://43.138.66.201:8080/getAllPersonInDep?dep=' + department + "&currentPage="
-                    + this.currentPage + "&size=" + this.size)
+                    + this.currentPage + "&size=" + this.size+"&keyword="+this.keyword)
                     .then(resp => {
                         if (resp) {
                             this.allPerson = resp.data.data;
@@ -315,9 +323,12 @@
                         }
                 })
             },
+            searchPerson(){
+                this.initPersons();
+            },
             currentChange(page) {
                 this.currentPage = page;
-                this.initList();
+                this.initPersons();
             },
             showUpdateView(data){
                 this.person=data;

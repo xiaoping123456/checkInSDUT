@@ -23,6 +23,9 @@
             <h4 style="float: left" th:text="${department.getDepartName()}+'&nbsp;&nbsp;&nbsp;&nbsp;'+入校信息核验结果"></h4>
             <h4 th:text=" '单位管理员姓名:'+${nickName} " th:align="right"></h4>
         </div>
+        <div style="display: flex;justify-content: right;margin-top: 4px">
+            <button class="ui button" onclick="window.history.go(-1)">返回</button>
+        </div>
         <div class="ui mini modal">
             <i class="close icon"></i>
             <div class="header">

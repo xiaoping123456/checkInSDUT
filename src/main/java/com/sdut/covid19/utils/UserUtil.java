@@ -56,9 +56,15 @@ public class UserUtil {
     /**
      * 提取itineraryInfo中的市级信息
      */
-    public static List<String> getCityList(String itineraryInfo){
+    public static List<String> getCityList(String info){
+        String itineraryInfo = info.replace("，",",");
         List<String> itineraryList = Arrays.asList(itineraryInfo.split(","));
         List<String> cityList = new ArrayList<>();
+
+        if (info.contains("*")){
+            return cityList;
+        }
+
         itineraryList.forEach(place->{
             if (place.equals("北京市")||place.equals("天津市")||place.equals("重庆市")||place.equals("上海市")){
                 cityList.add(place);
@@ -71,6 +77,23 @@ public class UserUtil {
             }
         });
         return cityList;
+    }
+
+    //covid19_time 日期和小时之间加个空格
+    public static String formatCovidTime(String time){
+        StringBuffer time2 = new StringBuffer(time);
+        time2.insert(10," ");
+        return time2.toString();
+    }
+
+    //itinerary_time 格式字符串
+    public static String formatItineraryTime(String time){
+        String time2 = time.replace(" ", "");
+        StringBuffer buffer = new StringBuffer(time2);
+        buffer.insert(10," ");
+        buffer.insert(13,":");
+        buffer.insert(16,":");
+        return buffer.toString();
     }
 
 

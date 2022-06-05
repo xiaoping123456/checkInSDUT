@@ -7,6 +7,7 @@ import com.sdut.covid19.mapper.UserMapper;
 import com.sdut.covid19.pojo.Person;
 import com.sdut.covid19.pojo.User;
 import com.sdut.covid19.utils.PyOcrRemote;
+import com.sdut.covid19.utils.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,12 +140,12 @@ public class ImageController {
             }else{
                 user.setCovid19Result("识别异常");
             }
-            user.setCovid19Time(healthList[5]);
+            user.setCovid19Time(UserUtil.formatCovidTime(healthList[5]));
             //判断核酸检测时间是否在48h内
             try{
                 Long doTestTime = Long.parseLong(healthList[7]);
                 Long currentTime = System.currentTimeMillis();
-                if ((currentTime-doTestTime)>24*60*60*1000){
+                if ((currentTime-doTestTime)>48*60*60*1000){
                     user.setCovid19Info("阴性核酸检测超过48小时");
                 }else{
                     user.setCovid19Info("阴性核酸检测小于48小时");
@@ -165,7 +166,7 @@ public class ImageController {
                 user.setItineraryInfo("行程码带*");
             }
             user.setItineraryPhone(itineraryList[1]);
-            user.setItineraryTime(itineraryList[2]);
+            user.setItineraryTime(UserUtil.formatItineraryTime(itineraryList[2]));
             user.setItineraryMessage(itineraryList[3]);
 
 
