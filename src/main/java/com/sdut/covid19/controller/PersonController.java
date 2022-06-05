@@ -53,6 +53,7 @@ public class PersonController {
         try {
             List<Person> personList = ExcelImportUtil.importExcel(file.getInputStream(), Person.class, params);
             personList.forEach(person -> {
+                person.setName(person.getName().replace(" ",""));
                 person.setDepartmentId(dep);
             });
             if (personService.saveBatch(personList)){
