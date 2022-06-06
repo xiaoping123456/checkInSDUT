@@ -96,8 +96,8 @@
 
     <div >
         <el-menu default-active="1" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1">表格</el-menu-item>
-            <el-menu-item index="2">散点图</el-menu-item>
+            <el-menu-item index="1">散点图</el-menu-item>
+            <el-menu-item index="2">表格</el-menu-item>
         </el-menu>
 
         <!--表格-->
@@ -148,7 +148,7 @@
             total:0,
             currentPage:1,
             size:10,
-            showTable:true,
+            showTable:false,
             xData:[],
             yData:[],
             submitData:[]
@@ -160,9 +160,9 @@
         methods:{
             handleSelect(key,keypath){
                 if (key==1){
-                    this.showTable=true;
+                    this.showTable=!this.showTable;
                 }else if(key==2){
-                    this.showTable=false;
+                    this.showTable=!this.showTable;
                 }
             },
             initData(){

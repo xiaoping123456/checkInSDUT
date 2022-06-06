@@ -6,6 +6,9 @@
     <title>详情</title>
     <!--semantic-ui-->
     <link th:href="@{/css/semantic.min.css}" rel="stylesheet">
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/semantic.js"></script>
+
 </head>
 <body>
 
@@ -61,9 +64,9 @@
                     <tbody>
                         <tr>
                             <td rowspan="2" style="vertical-align: middle" th:text="${user.getName()}"></td>
-                            <td style="vertical-align: middle" th:utext="${user.getHealthTime()}+'<br>'+${user.getHealthMessage()}+'<br>'+${user.getHealthName()}+'<br>'+${user.getHealthIdCard()}"></td>
+                            <td style="vertical-align: middle" th:utext="${user.getHealthTime()}+'<br>'+${user.getHealthMessage()}+'<br>'+${user.getHealthName()}"></td>
                             <td style="vertical-align: middle" th:utext="${user.itineraryPhone}+'<br>'+${user.itineraryTime}+'<br>'+${user.getItineraryMessage()}"></td>
-                            <td style="vertical-align: middle" th:utext="${user.covid19Time}+'<br>'+${user.covid19Hospital}+'<br>'+${user.getCovid19Result()}+'<br>'+${user.covid19Name}+'<br>'+${user.covid19IdCard}"></td>
+                            <td style="vertical-align: middle" th:utext="${user.covid19Time}+'<br>'+'<br>'+${user.getCovid19Result()}+'<br>'"></td>
                         </tr>
                         <tr>
                             <td th:name="health" th:if="${user.getHealthInfo() != '识别异常'}" th:text="${user.getHealthInfo()}" th:class="${user.getHealthInfo()=='绿码'?'positive':'negative'}"></td>
@@ -128,8 +131,8 @@
 
 </div>
 
-<script type="text/javascript" src="/js/jquery-3.6.0.js"></script>
-<script type="text/javascript" src="/js/semantic.js"></script>
+<!--<script type="text/javascript" src="/js/jquery-3.6.0.js"></script>-->
+<!--<script type="text/javascript" src="/js/semantic.js"></script>-->
 <script type="text/javascript" src="/js/color.js"></script>
 <!--<script type="text/javascript" src="/js/disabled.js"></script>-->
 

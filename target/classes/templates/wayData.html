@@ -89,8 +89,8 @@
 
     <div  style="margin-top: 15px">
         <el-menu default-active="1" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1">表格</el-menu-item>
-            <el-menu-item index="2">关系图</el-menu-item>
+            <el-menu-item index="1">关系图</el-menu-item>
+            <el-menu-item index="2">表格</el-menu-item>
         </el-menu>
 
         <div v-show="showTable">
@@ -173,7 +173,7 @@
             dialogVisible:false,
             imgUrls:[],
             preImgUrls:[],
-            showTable:true,
+            showTable:false,
             activeIndex:1,
             cityList:[],
             wayList:[]
@@ -186,9 +186,9 @@
             handleSelect(key,keypath){
                 this.activeIndex=key
                 if (key==1){
-                    this.showTable=true;
+                    this.showTable=!this.showTable;
                 }else if(key==2){
-                    this.showTable=false;
+                    this.showTable=!this.showTable;
                 }
             },
             initData(){

@@ -200,8 +200,10 @@
                 <div style="display: flex;justify-content: flex-end;margin-top: 10px">
                     <el-pagination
                             background
-                            layout="prev, pager, next,total"
+                            layout="total, sizes, prev, pager, next, jumper"
                             @current-change="currentChange"
+                            @size-change="sizeChange"
+                            :page-sizes="[10,20,30,50]"
                             :total="total">
                     </el-pagination>
                 </div>
@@ -328,6 +330,10 @@
             },
             currentChange(page) {
                 this.currentPage = page;
+                this.initPersons();
+            },
+            sizeChange(size){
+                this.size=size;
                 this.initPersons();
             },
             showUpdateView(data){

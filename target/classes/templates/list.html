@@ -26,37 +26,6 @@
 
     <div><img class="ui fluid image" th:src="@{/img/top.jpg}"></div>
 
-<!--    &lt;!&ndash;导航部分&ndash;&gt;-->
-<!--    <div style="margin-top: 20px">-->
-<!--        <div>-->
-<!--            <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"-->
-<!--                th:href="@{'/list/'+${adminId}}">今日入校详情</a>-->
-<!--            <a class="ui button" type="button" style="margin-right: 20px;background-color: #54afea"-->
-<!--                th:href="@{'/filedToday/'+${adminId}}">今日审核未通过详情</a>-->
-<!--            <a class="ui button" type="button" style="background-color: #54afea"-->
-<!--               th:href="@{'/goNotSubmitInToday/'+${adminId}}">今日未提交名单</a>-->
-<!--            <a class="ui button" type="button" style="float: right;background-color: #e593d4"-->
-<!--                th:href="@{'/goListManager/'+${adminId}}">名单管理</a>-->
-<!--        </div>-->
-<!--        <div style="margin-top: 20px;display: flex;justify-content: space-between">-->
-<!--            <div>-->
-<!--                <a th:href="@{'/list/historyData/'+${adminId}}" class="ui button" type="button"-->
-<!--                   style="margin-right: 20px;background-color: #67e25e">历史数据详情</a>-->
-<!--                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e"-->
-<!--                    th:href="@{'/toSubmitDataCount/'+${adminId}}">提交数据统计</a>-->
-<!--                <a class="ui button" type="button" style="margin-right: 20px;background-color: #67e25e"-->
-<!--                   th:href="@{'/toWayData/'+${adminId}}">“到达或途径”统计</a>-->
-<!--                <a th:href="@{'/list/visualization/'+${adminId}}" class="ui button" type="button"-->
-<!--                   style="margin-right: 20px;background-color: #67e25e">历史数据可视化</a>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <h4 th:text=" ${department.getDepartName()}+' : '+${nickName} " style=""></h4>-->
-<!--                <a class="ui button" type="button" style="float:right"-->
-<!--                    th:href="@{/logout}">退出</a>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--    </div>-->
 
     <!--导航部分-->
     <div style="margin-top: 20px">
@@ -149,10 +118,10 @@
                 <tbody v-for="user in list">
                 <tr>
                     <td rowspan="2">{{user.name}}</td>
-                    <td>{{user.healthTime}}<br>{{user.healthMessage}}<br>{{user.healthName}}<br>{{user.healthIdCard}}
+                    <td>{{user.healthTime}}<br>{{user.healthMessage}}<br>{{user.healthName}}
                     </td>
                     <td>{{user.itineraryPhone}}<br>{{user.itineraryTime}}<br>{{user.itineraryMessage}}</td>
-                    <td>{{user.covid19Time}}<br>{{user.covid19Hospital}}<br>{{user.covid19Result}}<br>{{user.covid19Name}}<br>{{user.covid19IdCard}}
+                    <td>{{user.covid19Time}}<br>{{user.covid19Result}}
                     </td>
                     <td rowspan="2">{{user.dayTime}}</td>
                     <td rowspan="2">
