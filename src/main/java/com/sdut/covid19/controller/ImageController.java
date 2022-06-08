@@ -143,46 +143,46 @@ public class ImageController {
             user.setCovid19Time(UserUtil.formatCovidTime(healthList[5]));
             //判断核酸检测时间是否在48h内
 
-            // 设置日期格式
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            // 获取当前时间
-            long currentTimestamp = new Date().getTime();
-            String currentTime = df.format(currentTimestamp);
-            // 获取当天16:00:00的时间，转换成时间戳形式
-            String time = currentTime.split(" ")[0] + " 16:00:00";
-            long today = 0;
-            try {
-                today = df.parse(time).getTime();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            long dayTimestamp = 24 * 60 * 60 * 1000; // 24小时的时间戳
-            long before_yesterday = today - dayTimestamp -dayTimestamp;   // 前天16:00:00的时间戳
-            long covid19Time = 0;   // 核酸检测报告的时间
-            try {
-                covid19Time = Long.parseLong(healthList[7]);
-                if(covid19Time >= before_yesterday){
-                    user.setCovid19Info("阴性核酸检测小于48小时");
-                }
-                else {
-                    user.setCovid19Info("阴性核酸检测超过48小时");
-                }
-            } catch (Exception e) {
-                user.setCovid19Info("识别异常");
-                e.printStackTrace();
-            }
-
-//            try{
-//                Long doTestTime = Long.parseLong(healthList[7]);
-//                Long currentTime = System.currentTimeMillis();
-//                if ((currentTime-doTestTime)>48*60*60*1000){
-//                    user.setCovid19Info("阴性核酸检测超过48小时");
-//                }else{
+//            // 设置日期格式
+//            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            // 获取当前时间
+//            long currentTimestamp = new Date().getTime();
+//            String currentTime = df.format(currentTimestamp);
+//            // 获取当天16:00:00的时间，转换成时间戳形式
+//            String time = currentTime.split(" ")[0] + " 16:00:00";
+//            long today = 0;
+//            try {
+//                today = df.parse(time).getTime();
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            long dayTimestamp = 24 * 60 * 60 * 1000; // 24小时的时间戳
+//            long before_yesterday = today - dayTimestamp -dayTimestamp;   // 前天16:00:00的时间戳
+//            long covid19Time = 0;   // 核酸检测报告的时间
+//            try {
+//                covid19Time = Long.parseLong(healthList[7]);
+//                if(covid19Time >= before_yesterday){
 //                    user.setCovid19Info("阴性核酸检测小于48小时");
 //                }
-//            }catch (Exception e){
+//                else {
+//                    user.setCovid19Info("阴性核酸检测超过48小时");
+//                }
+//            } catch (Exception e) {
 //                user.setCovid19Info("识别异常");
+//                e.printStackTrace();
 //            }
+
+            try{
+                Long doTestTime = Long.parseLong(healthList[7]);
+                Long currentTime = System.currentTimeMillis();
+                if ((currentTime-doTestTime)>48*60*60*1000){
+                    user.setCovid19Info("阴性核酸检测超过48小时");
+                }else{
+                    user.setCovid19Info("阴性核酸检测小于48小时");
+                }
+            }catch (Exception e){
+                user.setCovid19Info("识别异常");
+            }
 
             //行程码
             String itineraryImgOcrInfo = pyOcrRemote.getOcrInfo(2, finalItineraryImgPath);
