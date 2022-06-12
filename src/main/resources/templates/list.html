@@ -131,7 +131,7 @@
                 <tr>
                     <td name="health" :class="[user.healthInfo=='绿码'?'positive':'negative']">{{user.healthInfo}}</td>
                     <td name="itinerary"
-                        :class="[(user.itineraryInfo=='行程码带*' || user.itineraryInfo=='识别异常')?'negative':'positive']">
+                        :class="[(user.itineraryInfo.toString().includes('*') || user.itineraryInfo=='识别异常')?'negative':'positive']">
                         {{user.itineraryInfo}}
                     </td>
                     <td name="covid19" :class="[user.covid19Info=='阴性核酸检测小于48小时'?'positive':'negative']">
