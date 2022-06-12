@@ -345,7 +345,7 @@ public class CountController {
         //处理map
         List<City> cityList = new ArrayList<>();
         for (Map.Entry<String, Object> entry : cityMap.entrySet()) {
-            City city = new City(entry.getKey(), (Integer) entry.getValue() * 2 + 40,(Integer) entry.getValue());
+            City city = new City(entry.getKey(), (Integer) entry.getValue() * 0 + 70,(Integer) entry.getValue());
             cityList.add(city);
         }
         res.put("cityList", cityList);

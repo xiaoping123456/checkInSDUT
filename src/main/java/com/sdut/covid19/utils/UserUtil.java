@@ -58,7 +58,10 @@ public class UserUtil {
      */
     public static List<String> getCityList(String info){
         String itineraryInfo = info.replace("，",",");
-        List<String> itineraryList = Arrays.asList(itineraryInfo.split(","));
+        String itineraryInfo2 = itineraryInfo.replace(".", ",");
+        String itineraryInfo3 = itineraryInfo2.replace("*", "");
+        String finalPlace = itineraryInfo3;
+        List<String> itineraryList = Arrays.asList(finalPlace.split(","));
         List<String> cityList = new ArrayList<>();
 
         if (info.contains("*")){
@@ -66,6 +69,13 @@ public class UserUtil {
         }
 
         itineraryList.forEach(place->{
+
+            if (place.equals("山东省博市")||place.equals("山东省淄博")){
+                System.out.println("1111111111111");
+                cityList.add("淄博市");
+                return;
+            }
+
             if (place.equals("北京市")||place.equals("天津市")||place.equals("重庆市")||place.equals("上海市")){
                 cityList.add(place);
             }else if (place.contains("自治区")){
