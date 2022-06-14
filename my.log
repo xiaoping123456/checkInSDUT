@@ -1,16 +1,188 @@
-2022-06-12 20:40:51.876  INFO 2688 --- [main] c.sdut.covid19.Covid19ApplicationTests   : Starting Covid19ApplicationTests using Java 1.8.0_261 on LAPTOP-6U8QOKK1 with PID 2688 (started by xiaoping in C:\Users\xiaoping\Desktop\covid\covid19\covid19)
-2022-06-12 20:40:51.883  INFO 2688 --- [main] c.sdut.covid19.Covid19ApplicationTests   : No active profile set, falling back to 1 default profile: "default"
-2022-06-12 20:40:59.059  INFO 2688 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@44032fde, org.springframework.security.web.context.SecurityContextPersistenceFilter@ae202c6, org.springframework.security.web.header.HeaderWriterFilter@2da3b078, org.springframework.security.web.authentication.logout.LogoutFilter@4acc5dff, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@53d13cd4, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@298f0a0b, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@7b676112, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6ada9c0c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@45cec376, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5578be42, org.springframework.security.web.session.SessionManagementFilter@7fb66650, org.springframework.security.web.access.ExceptionTranslationFilter@55d58825, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@57562473]
-2022-06-12 20:41:00.468  INFO 2688 --- [main] c.sdut.covid19.Covid19ApplicationTests   : Started Covid19ApplicationTests in 9.071 seconds (JVM running for 10.614)
-2022-06-12 20:41:00.954  INFO 2688 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2022-06-12 20:41:06.707  INFO 2688 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2022-06-12 20:41:06.982  INFO 2688 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2022-06-12 20:41:07.032  INFO 2688 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2022-06-12 22:02:32.840  INFO 20512 --- [main] c.sdut.covid19.Covid19ApplicationTests   : Starting Covid19ApplicationTests using Java 1.8.0_261 on LAPTOP-6U8QOKK1 with PID 20512 (started by xiaoping in C:\Users\xiaoping\Desktop\covid\covid19\covid19)
-2022-06-12 22:02:32.843  INFO 20512 --- [main] c.sdut.covid19.Covid19ApplicationTests   : No active profile set, falling back to 1 default profile: "default"
-2022-06-12 22:02:39.746  INFO 20512 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@424de326, org.springframework.security.web.context.SecurityContextPersistenceFilter@5f254608, org.springframework.security.web.header.HeaderWriterFilter@b9a77c8, org.springframework.security.web.authentication.logout.LogoutFilter@26d41711, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6192a5d5, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@19a64eae, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@4bc33720, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1b1c538d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6cbd0674, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2dd0f797, org.springframework.security.web.session.SessionManagementFilter@6cd3ad8a, org.springframework.security.web.access.ExceptionTranslationFilter@1afd72ef, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@70730db]
-2022-06-12 22:02:41.150  INFO 20512 --- [main] c.sdut.covid19.Covid19ApplicationTests   : Started Covid19ApplicationTests in 8.815 seconds (JVM running for 10.477)
-2022-06-12 22:02:41.722  INFO 20512 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2022-06-12 22:02:43.695  INFO 20512 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2022-06-12 22:02:44.019  INFO 20512 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2022-06-12 22:02:45.039  INFO 20512 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-06-14 16:04:22.437  INFO 19292 --- [main] com.sdut.covid19.Covid19Application      : Starting Covid19Application using Java 1.8.0_201 on DESKTOP-5DDPON6 with PID 19292 (E:\桌面\covid\checkInSDUT\target\classes started by Dell in E:\桌面\covid\checkInSDUT)
+2022-06-14 16:04:22.447  INFO 19292 --- [main] com.sdut.covid19.Covid19Application      : No active profile set, falling back to 1 default profile: "default"
+2022-06-14 16:04:23.714  INFO 19292 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-14 16:04:23.728  INFO 19292 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-14 16:04:23.728  INFO 19292 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-14 16:04:24.176  INFO 19292 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-14 16:04:24.177  INFO 19292 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1676 ms
+2022-06-14 16:04:26.007  INFO 19292 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@31ceba99, org.springframework.security.web.context.SecurityContextPersistenceFilter@7c8f9c2e, org.springframework.security.web.header.HeaderWriterFilter@772861aa, org.springframework.security.web.authentication.logout.LogoutFilter@15dc339f, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@382c90c2, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@3a543f31, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@295bf2a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3cbf1ba4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4cb40e3b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@bbf9e07, org.springframework.security.web.session.SessionManagementFilter@19962194, org.springframework.security.web.access.ExceptionTranslationFilter@6c6366cf, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3a175162]
+2022-06-14 16:04:26.287  INFO 19292 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-14 16:04:26.297  INFO 19292 --- [main] com.sdut.covid19.Covid19Application      : Started Covid19Application in 4.595 seconds (JVM running for 6.771)
+2022-06-14 16:04:49.997  INFO 19292 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-14 16:04:49.998  INFO 19292 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-14 16:04:49.999  INFO 19292 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-06-14 16:04:52.741  INFO 19292 --- [http-nio-8080-exec-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-14 16:04:54.330  INFO 19292 --- [http-nio-8080-exec-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-14 16:12:21.288  INFO 14440 --- [main] com.sdut.covid19.Covid19Application      : Starting Covid19Application using Java 1.8.0_201 on DESKTOP-5DDPON6 with PID 14440 (E:\桌面\covid\checkInSDUT\target\classes started by Dell in E:\桌面\covid\checkInSDUT)
+2022-06-14 16:12:21.292  INFO 14440 --- [main] com.sdut.covid19.Covid19Application      : No active profile set, falling back to 1 default profile: "default"
+2022-06-14 16:12:22.185  INFO 14440 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-14 16:12:22.191  INFO 14440 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-14 16:12:22.191  INFO 14440 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-14 16:12:22.285  INFO 14440 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-14 16:12:22.285  INFO 14440 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 946 ms
+2022-06-14 16:12:23.872  INFO 14440 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2042ccce, org.springframework.security.web.context.SecurityContextPersistenceFilter@44c13103, org.springframework.security.web.header.HeaderWriterFilter@53ed09e8, org.springframework.security.web.authentication.logout.LogoutFilter@7efe7b87, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@10358c32, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@7c8f9c2e, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@20de05e5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6c6366cf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@19962194, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@36c0d0bd, org.springframework.security.web.session.SessionManagementFilter@1daf3b44, org.springframework.security.web.access.ExceptionTranslationFilter@3ee69ad8, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6fc29daa]
+2022-06-14 16:12:24.104  INFO 14440 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-14 16:12:24.113  INFO 14440 --- [main] com.sdut.covid19.Covid19Application      : Started Covid19Application in 3.261 seconds (JVM running for 4.664)
+2022-06-14 16:12:24.324  INFO 14440 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-14 16:12:24.324  INFO 14440 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-14 16:12:24.325  INFO 14440 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-06-14 16:16:47.515  INFO 14440 --- [http-nio-8080-exec-6] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-14 16:16:48.608  INFO 14440 --- [http-nio-8080-exec-6] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-14 16:20:30.857  INFO 2828 --- [main] com.sdut.covid19.Covid19Application      : Starting Covid19Application using Java 1.8.0_201 on DESKTOP-5DDPON6 with PID 2828 (E:\桌面\covid\checkInSDUT\target\classes started by Dell in E:\桌面\covid\checkInSDUT)
+2022-06-14 16:20:30.860  INFO 2828 --- [main] com.sdut.covid19.Covid19Application      : No active profile set, falling back to 1 default profile: "default"
+2022-06-14 16:20:31.767  INFO 2828 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-14 16:20:31.774  INFO 2828 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-14 16:20:31.774  INFO 2828 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-14 16:20:31.872  INFO 2828 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-14 16:20:31.872  INFO 2828 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 961 ms
+2022-06-14 16:20:33.459  INFO 2828 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2af4129d, org.springframework.security.web.context.SecurityContextPersistenceFilter@53ed09e8, org.springframework.security.web.header.HeaderWriterFilter@3ee69ad8, org.springframework.security.web.authentication.logout.LogoutFilter@3a543f31, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@ebd06a9, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@772861aa, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@3a175162, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1daf3b44, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@18acfe88, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1640190a, org.springframework.security.web.session.SessionManagementFilter@1a6cf771, org.springframework.security.web.access.ExceptionTranslationFilter@42714a7, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@13fed1ec]
+2022-06-14 16:20:33.683  INFO 2828 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-14 16:20:33.692  INFO 2828 --- [main] com.sdut.covid19.Covid19Application      : Started Covid19Application in 3.273 seconds (JVM running for 4.595)
+2022-06-14 16:20:36.283  INFO 2828 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-14 16:20:36.283  INFO 2828 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-14 16:20:36.284  INFO 2828 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-06-14 16:20:37.451  INFO 2828 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-14 16:20:38.613  INFO 2828 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-14 16:38:12.994  INFO 22076 --- [main] com.sdut.covid19.Covid19Application      : Starting Covid19Application using Java 1.8.0_201 on DESKTOP-5DDPON6 with PID 22076 (E:\桌面\covid\checkInSDUT\target\classes started by Dell in E:\桌面\covid\checkInSDUT)
+2022-06-14 16:38:12.998  INFO 22076 --- [main] com.sdut.covid19.Covid19Application      : No active profile set, falling back to 1 default profile: "default"
+2022-06-14 16:38:13.883  INFO 22076 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-14 16:38:13.889  INFO 22076 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-14 16:38:13.889  INFO 22076 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-14 16:38:13.991  INFO 22076 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-14 16:38:13.991  INFO 22076 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 941 ms
+2022-06-14 16:38:15.590  INFO 22076 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2af46afd, org.springframework.security.web.context.SecurityContextPersistenceFilter@19962194, org.springframework.security.web.header.HeaderWriterFilter@18acfe88, org.springframework.security.web.authentication.logout.LogoutFilter@19382338, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5e1fc2aa, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@4cb40e3b, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@760245e1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7c8f9c2e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@383864d5, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@31ceba99, org.springframework.security.web.session.SessionManagementFilter@772861aa, org.springframework.security.web.access.ExceptionTranslationFilter@44c13103, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@10358c32]
+2022-06-14 16:38:15.812  INFO 22076 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-14 16:38:15.819  INFO 22076 --- [main] com.sdut.covid19.Covid19Application      : Started Covid19Application in 3.23 seconds (JVM running for 4.486)
+2022-06-14 16:38:18.033  INFO 22076 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-14 16:38:18.034  INFO 22076 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-14 16:38:18.036  INFO 22076 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-06-14 16:38:19.175  INFO 22076 --- [http-nio-8080-exec-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-14 16:38:21.033  INFO 22076 --- [http-nio-8080-exec-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-14 16:38:25.936 ERROR 22076 --- [http-nio-8080-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.util.ConcurrentModificationException] with root cause
+
+java.util.ConcurrentModificationException: null
+	at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:909) ~[na:1.8.0_201]
+	at java.util.ArrayList$Itr.next(ArrayList.java:859) ~[na:1.8.0_201]
+	at com.sdut.covid19.controller.UserController3.toVisualization(UserController3.java:191) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_201]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_201]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_201]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_201]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:655) ~[tomcat-embed-core-9.0.62.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.19.jar:5.3.19]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764) ~[tomcat-embed-core-9.0.62.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:327) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter.doFilterInternal(DefaultLogoutPageGeneratingFilter.java:58) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.doFilter(DefaultLoginPageGeneratingFilter.java:237) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.doFilter(DefaultLoginPageGeneratingFilter.java:223) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:219) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:213) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183) ~[spring-security-web-5.6.3.jar:5.6.3]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.19.jar:5.3.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197) ~[tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.62.jar:9.0.62]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_201]
+
+2022-06-14 16:40:51.474  INFO 2584 --- [main] com.sdut.covid19.Covid19Application      : Starting Covid19Application using Java 1.8.0_201 on DESKTOP-5DDPON6 with PID 2584 (E:\桌面\covid\checkInSDUT\target\classes started by Dell in E:\桌面\covid\checkInSDUT)
+2022-06-14 16:40:51.477  INFO 2584 --- [main] com.sdut.covid19.Covid19Application      : No active profile set, falling back to 1 default profile: "default"
+2022-06-14 16:40:52.357  INFO 2584 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-14 16:40:52.363  INFO 2584 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-14 16:40:52.363  INFO 2584 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-14 16:40:52.464  INFO 2584 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-14 16:40:52.464  INFO 2584 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 939 ms
+2022-06-14 16:40:54.007  INFO 2584 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@20de05e5, org.springframework.security.web.context.SecurityContextPersistenceFilter@8f2098e, org.springframework.security.web.header.HeaderWriterFilter@60859f5a, org.springframework.security.web.authentication.logout.LogoutFilter@ac20bb4, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2af4129d, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@140d1230, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@36c0d0bd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@55a88417, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@481e91b6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5e1fc2aa, org.springframework.security.web.session.SessionManagementFilter@7fd8c559, org.springframework.security.web.access.ExceptionTranslationFilter@f679798, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2f66f0d0]
+2022-06-14 16:40:54.239  INFO 2584 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-14 16:40:54.246  INFO 2584 --- [main] com.sdut.covid19.Covid19Application      : Started Covid19Application in 3.185 seconds (JVM running for 4.39)
+2022-06-14 16:41:10.287  INFO 2584 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-14 16:41:10.287  INFO 2584 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-14 16:41:10.289  INFO 2584 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-06-14 16:41:11.751  INFO 2584 --- [http-nio-8080-exec-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-14 16:41:12.807  INFO 2584 --- [http-nio-8080-exec-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-14 16:42:35.007  INFO 10268 --- [main] c.sdut.covid19.Covid19ApplicationTests   : Starting Covid19ApplicationTests using Java 1.8.0_201 on DESKTOP-5DDPON6 with PID 10268 (started by Dell in E:\����\covid\checkInSDUT)
+2022-06-14 16:42:35.010  INFO 10268 --- [main] c.sdut.covid19.Covid19ApplicationTests   : No active profile set, falling back to 1 default profile: "default"
+2022-06-14 16:42:39.078  INFO 10268 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@70730db, org.springframework.security.web.context.SecurityContextPersistenceFilter@6c841199, org.springframework.security.web.header.HeaderWriterFilter@5c5d6175, org.springframework.security.web.authentication.logout.LogoutFilter@15c4af7a, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@265bd546, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@378f002a, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@5793b87, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@489091bd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3743539f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@12704e15, org.springframework.security.web.session.SessionManagementFilter@3b27b497, org.springframework.security.web.access.ExceptionTranslationFilter@984169e, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2fcd7d3f]
+2022-06-14 16:42:40.014  INFO 10268 --- [main] c.sdut.covid19.Covid19ApplicationTests   : Started Covid19ApplicationTests in 5.561 seconds (JVM running for 6.895)
+2022-06-14 16:42:40.333  INFO 10268 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-14 16:42:44.020  INFO 10268 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-14 16:42:44.281  INFO 10268 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-06-14 16:42:44.546  INFO 10268 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

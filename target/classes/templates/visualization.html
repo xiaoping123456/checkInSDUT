@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!--兼容IE-->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="referrer" content="no-referrer" />
+    <meta name="referrer" content="no-referrer"/>
     <!--网页每隔5min自动刷新-->
     <meta http-equiv="Refresh" content="300">
     <title>首页</title>
@@ -51,11 +51,12 @@
             font-size: 16px;
         }
 
-        .error{
+        .error {
             background-color: rgb(255, 246, 246);
             color: red;
         }
-        .success{
+
+        .success {
             background-color: rgb(255, 255, 246);
             color: green;
         }
@@ -85,135 +86,138 @@
 </head>
 
 <body>
-    <!--主容器-->
-    <div class="container" >
+<!--主容器-->
+<div class="container">
 
-        <div><img class="ui fluid image" th:src="@{/img/top.jpg}"></div>
+    <div><img class="ui fluid image" th:src="@{/img/top.jpg}"></div>
 
-        <!--导航部分-->
-        <div style="margin-top: 20px" id="app1">
-            <div>
-                <!--            今日详情菜单-->
-                <el-dropdown style="margin-right: 10px;" size="small">
-                    <el-button type="primary" style="width: 150px">
-                        今日详情 <i style="float:right;" class="fa" >&#xf107</i>
-                    </el-button>
-                    <template #dropdown>
-                        <el-dropdown-menu style="max-width: 150px">
-                            <el-dropdown-item >
-                                <a style="color: #409EFF;font-weight: 600" th:href="@{'/list/'+${adminId}}">今日入校详情</a>
-                            </el-dropdown-item>
-                            <el-dropdown-item >
-                                <a style="color: #409EFF;font-weight: 600"
-                                   th:href="@{'/filedToday/'+${adminId}}">今日审核未通过详情</a>
-                            </el-dropdown-item>
-                            <el-dropdown-item>
-                                <a style="color: #409EFF;font-weight: 600"
-                                   th:href="@{'/goNotSubmitInToday/'+${adminId}}">今日未提交名单详情</a>
-                            </el-dropdown-item>
-                        </el-dropdown-menu>
-                    </template>
-                </el-dropdown>
-                <el-button type="primary" style="width: 150px;margin-right: 10px;">
-                    <a style="color: #ffffff" th:href="@{'/list/historyData/'+${adminId}}">历史数据详情</a>
+    <!--导航部分-->
+    <div style="margin-top: 20px" id="app1">
+        <div>
+            <!--            今日详情菜单-->
+            <el-dropdown style="margin-right: 10px;" size="small">
+                <el-button type="primary" style="width: 150px">
+                    今日详情 <i style="float:right;" class="fa">&#xf107</i>
                 </el-button>
-                <!--            数据可视化菜单-->
-                <el-dropdown style="margin-right: 10px" size="small">
-                    <el-button type="primary" style="width: 150px">
-                        数据可视化 <i style="float:right;" class="fa" >&#xf107</i>
-                    </el-button>
-                    <template #dropdown>
-                        <el-dropdown-menu style="width: 150px">
-                            <el-dropdown-item>
-                                <a style="color: #409EFF;font-weight: 600"
-                                   th:href="@{'/toSubmitDataCount/'+${adminId}}">提交数据统计</a>
-                            </el-dropdown-item>
-                            <el-dropdown-item>
-                                <a style="color: #409EFF;font-weight: 600"
-                                   th:href="@{'/toWayData/'+${adminId}}">到达或途径统计</a>
-                            </el-dropdown-item>
-                            <el-dropdown-item >
-                                <a style="color: #409EFF;font-weight: 600"
-                                   th:href="@{'/list/visualization/'+${adminId}}">历史数据可视化</a>
-                            </el-dropdown-item>
-                        </el-dropdown-menu>
-                    </template>
-                </el-dropdown>
+                <template #dropdown>
+                    <el-dropdown-menu style="max-width: 150px">
+                        <el-dropdown-item>
+                            <a style="color: #409EFF;font-weight: 600" th:href="@{'/list/'+${adminId}}">今日入校详情</a>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <a style="color: #409EFF;font-weight: 600"
+                               th:href="@{'/filedToday/'+${adminId}}">今日审核未通过详情</a>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <a style="color: #409EFF;font-weight: 600"
+                               th:href="@{'/goNotSubmitInToday/'+${adminId}}">今日未提交名单详情</a>
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
+            <el-button type="primary" style="width: 150px;margin-right: 10px;">
+                <a style="color: #ffffff" th:href="@{'/list/historyData/'+${adminId}}">历史数据详情</a>
+            </el-button>
+            <!--            数据可视化菜单-->
+            <el-dropdown style="margin-right: 10px" size="small">
+                <el-button type="primary" style="width: 150px">
+                    数据可视化 <i style="float:right;" class="fa">&#xf107</i>
+                </el-button>
+                <template #dropdown>
+                    <el-dropdown-menu style="width: 150px">
+                        <el-dropdown-item>
+                            <a style="color: #409EFF;font-weight: 600"
+                               th:href="@{'/toSubmitDataCount/'+${adminId}}">提交数据统计</a>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <a style="color: #409EFF;font-weight: 600"
+                               th:href="@{'/toWayData/'+${adminId}}">到达或途径统计</a>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <a style="color: #409EFF;font-weight: 600"
+                               th:href="@{'/list/visualization/'+${adminId}}">历史数据可视化</a>
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
 
-                <el-button type="info" style="float: right">
-                    <a style="color: #ffffff" th:href="@{/logout}">退出</a>
-                </el-button>
-                <el-button type="warning" style="float: right;margin-right: 10px;">
-                    <a style="color: #ffffff"  th:href="@{'/goListManager/'+${adminId}}">名单管理</a>
-                </el-button>
+            <el-button type="info" style="float: right">
+                <a style="color: #ffffff" th:href="@{/logout}">退出</a>
+            </el-button>
+            <el-button type="warning" style="float: right;margin-right: 10px;">
+                <a style="color: #ffffff" th:href="@{'/goListManager/'+${adminId}}">名单管理</a>
+            </el-button>
+        </div>
+        <div style="margin-top: 20px;display: flex;justify-content: space-between">
+        </div>
+    </div>
+
+    <div class="ui grid" style="margin-top: 10px;padding-bottom: 30px">
+        <p>当前位置：历史数据查询</p>
+    </div>
+    <!-- 时间选择组件(from laydate) -->
+    <div class="row" style="margin-bottom: 2%">
+        <form th:action="@{'/list/visualization/query/'+${adminId}}">
+            <div class="col-md-4" style="padding-left:2%">
+                <label>开始时间：</label>
+                <input name="date1" type="text" class="demo-input" placeholder="请选择日期" id="test1">
+                <script>
+                    lay('#version').html('-v' + laydate.v);
+                    //执行一个laydate实例
+                    laydate.render({
+                        elem: '#test1' //指定元素
+                    });
+                </script>
             </div>
-            <div style="margin-top: 20px;display: flex;justify-content: space-between">
+            <div class="col-md-4" style="padding-left:2%">
+                <label>结束时间：</label>
+                <input name="date2" type="text" class="demo-input" placeholder="请选择日期" id="test2">
+                <script>
+                    lay('#version').html('-v' + laydate.v);
+                    laydate.render({
+                        elem: '#test2'
+                    });
+                </script>
             </div>
-        </div>
+            <div class="col-md-3">
+                <input type="submit" class="btn btn-primary" value="确定"
+                       style="margin-left:5%; padding: 2% 10% 2% 10%; font-size: 18px;color: #fff;">
+            </div>
+        </form>
+    </div>
 
-        <div class="ui grid" style="margin-top: 10px;padding-bottom: 30px">
-            <p >当前位置：历史数据查询</p>
-        </div>
-        <!-- 时间选择组件(from laydate) -->
-        <div class="row">
-            <form th:action="@{'/list/visualization/query/'+${adminId}}">
-                <div class="col-md-4" style="padding-left:2%">
-                    <label>开始时间：</label>
-                    <input name="date1" type="text" class="demo-input" placeholder="请选择日期" id="test1">
-                    <script>
-                        lay('#version').html('-v' + laydate.v);
-                        //执行一个laydate实例
-                        laydate.render({
-                            elem: '#test1' //指定元素
-                        });
-                    </script>
-                </div>
-                <div class="col-md-4" style="padding-left:2%">
-                    <label>结束时间：</label>
-                    <input name="date2" type="text" class="demo-input" placeholder="请选择日期" id="test2">
-                    <script>
-                        lay('#version').html('-v' + laydate.v);
-                        laydate.render({
-                            elem: '#test2'
-                        });
-                    </script>
-                </div>
-                <div class="col-md-3">
-                    <input type="submit" class="btn btn-primary" value="确定"
-                           style="margin-left:5%; padding: 2% 10% 2% 10%; font-size: 18px;color: #fff;">
-                </div>
-            </form>
-        </div>
+    <!--Echarts图标放置位置-->
+    <div style="width: 100%; height:550%; border: 20px outset #e9f3fa; ">
         <!-- 可视化导航栏(from bootstrap 面包屑导航) -->
-        <ul class="breadcrumb" style="margin-top: 2%">
+        <ul class="breadcrumb">
             <li><a href="#" onclick="fun1()">每小时提交可视化</a></li>
             <li><a href="#" onclick="fun2()">每日提交可视化</a></li>
             <li><a href="#" onclick="fun3()">行程卡地图展示</a></li>
         </ul>
         <!--错误提示-->
         <div>
-            <p th:text="${msg}" th:if="${not #strings.isEmpty(msg)}" style="color: red;text-align: center; font-size: 14px"></p>
+            <p th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"
+               style="color: red;text-align: center; font-size: 14px"></p>
         </div>
-        <!--Echarts图标放置位置-->
         <div id="echarts01" style="width: 100%; height:500%;"></div>
         <div id="echarts02" style="width: 100%; height:500%;"></div>
-        <div id="echarts03" style="width: 100%; height:500%;"></div>
-        <div id="box" style="width: 100%; height:500%;background-color: rgb(197, 195, 195);">
+        <div id="echarts03" style="display:block; width: 100%; height:500%;"></div>
+        <div id="box" style="width: 100%; height:500%;">
             <div class="row" style="height: 50%;width:100%;">
-                <div id="province" class="col-md-6" style="font-size: 16px;padding-left: 2%;">当前位置：中国 -> </div>
+                <b><div id="province" class="col-md-6" style="font-size: 18px;padding-left: 2%; font-family: KaiTi">当前位置：中国 -></div></b>
                 <a style="text-align: right; font-size: 20px;padding-right: 0%;text-decoration: none;" class="col-md-6"
-                   href="javascript:;" onclick="f2()">关闭</a>
+                   href="javascript:;" onclick="f2()">返回</a>
             </div>
             <div id="provinceMap" style="height: 450%;width:100%"></div>
         </div>
     </div>
-
+</div>
 
 
 </body>
 <script>
     var app1 = new Vue({
-        el:"#app1",
+        el: "#app1",
 
     })
 </script>
@@ -222,11 +226,13 @@
 <script>
     var box = document.getElementById('box');
     var hide = document.getElementById('echarts03');
+
     function f1() {
         box.style.display = "block";
         hide.style.display = "none";
         $(window).trigger('resize');
     }
+
     function f2() {
         box.style.display = "none";
         hide.style.display = "block";
@@ -238,6 +244,7 @@
     var box = document.getElementById('box');
     $("#echarts02").hide();
     $("#echarts03").hide();
+
     function fun1() {
         $("#echarts01").show();
         $("#echarts02").hide();
@@ -245,6 +252,7 @@
         box.style.display = "none";
         $(window).trigger('resize');
     }
+
     function fun2() {
         $("#echarts01").hide();
         $("#echarts02").show();
@@ -252,6 +260,7 @@
         box.style.display = "none";
         $(window).trigger('resize');
     }
+
     function fun3() {
         $("#echarts01").hide();
         $("#echarts02").hide();
@@ -265,9 +274,9 @@
     // 今天
     var thisDate = new Date();
     // 前14天
-    var preDate = new Date(thisDate.getTime() - 14*24 * 60 * 60 * 1000);
-    var date1 = jutils.formatDate(new Date(preDate),"YYYY-MM-DD");
-    var date2 = jutils.formatDate(new Date(thisDate),"YYYY-MM-DD");
+    var preDate = new Date(thisDate.getTime() - 14 * 24 * 60 * 60 * 1000);
+    var date1 = jutils.formatDate(new Date(preDate), "YYYY-MM-DD");
+    var date2 = jutils.formatDate(new Date(thisDate), "YYYY-MM-DD");
     document.getElementById("test1").value = date1;
     document.getElementById("test2").value = date2;
 </script>
@@ -278,7 +287,7 @@
     var myChart01 = echarts.init(chartDom);
     var arr = [[${arr}]];
     var option = {
-        color:'#1991ec',
+        color: '#1991ec',
         tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -287,17 +296,18 @@
         },
         title: {
             text: [[${title1Str}]],
+            x: 'center',
         },
         xAxis: {
             type: 'category',
-            name:'时间段',
-            axisLabel:{
-                show:true,
-                interval:0,
+            name: '时间段',
+            axisLabel: {
+                show: true,
+                interval: 0,
                 // rotate:45,
             },
             data: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10', '10-11', '11-12',
-                '12-13', '13-14', '14-15', '15-16', '16-17', '17-18', '18-19', '19-20','20-21','21-22','22-23','23-0'],
+                '12-13', '13-14', '14-15', '15-16', '16-17', '17-18', '18-19', '19-20', '20-21', '21-22', '22-23', '23-0'],
         },
         yAxis: {
             type: 'value',
@@ -305,7 +315,7 @@
         },
         series: [
             {
-                name:'提交人次',
+                name: '提交人次',
                 data: arr,
                 type: 'bar'
             }
@@ -328,20 +338,20 @@
     option = {
         color: 'rgb(92,123,217)',
         title: {
-            text: [[${title2Str}]]
+            text: [[${title2Str}]],
+            x: 'center',
         },
         tooltip: {
             trigger: 'axis'
         },
-        legend: {},
         toolbox: {
             show: true,
             feature: {
                 dataZoom: {
                     yAxisIndex: 'none'
                 },
-                dataView: { readOnly: false },
-                magicType: { type: ['line', 'bar'] },
+                dataView: {readOnly: false},
+                magicType: {type: ['line', 'bar']},
                 restore: {},
                 saveAsImage: {}
             }
@@ -351,9 +361,9 @@
             name: '日期',
             boundaryGap: false,
             data: dates,
-            axisLabel:{
-                interval:0,
-                rotate:45,
+            axisLabel: {
+                interval: 0,
+                rotate: 45,
             }
         },
         yAxis: {
@@ -370,12 +380,12 @@
                 data: datesArr,
                 markPoint: {
                     data: [
-                        { type: 'max', name: 'Max' },
-                        { type: 'min', name: 'Min' }
+                        {type: 'max', name: 'Max'},
+                        {type: 'min', name: 'Min'}
                     ]
                 },
                 markLine: {
-                    data: [{ type: 'average', name: 'Avg' }]
+                    data: [{type: 'average', name: 'Avg'}]
                 }
             }
         ]
@@ -387,62 +397,28 @@
 <!-- 中国地图 -->
 <script>
     var chinaJson = JSON.parse('[(${chinaJson})]');
-    var data=[];
-    for(var key in chinaJson){
-        data.push({name:key,value:chinaJson[key]});
+    var maxValue = [[${maxValue}]];
+    var data = [];
+    for (var key in chinaJson) {
+        data.push({name: key, value: chinaJson[key]});
     }
     console.log(data)
+
     function randomValue() {
         return Math.round(Math.random() * 1000);
     }
-    var myChart03 = echarts.init(document.getElementById('echarts03'));
-    // var data = [
-    //     { name: '北京', value: randomValue() },
-    //     { name: '天津', value: randomValue() },
-    //     { name: '上海', value: randomValue() },
-    //     { name: '重庆', value: randomValue() },
-    //     { name: '河北', value: randomValue() },
-    //     { name: '河南', value: randomValue() },
-    //     { name: '云南', value: randomValue() },
-    //     { name: '辽宁', value: randomValue() },
-    //     { name: '黑龙江', value: randomValue() },
-    //     { name: '湖南', value: randomValue() },
-    //     { name: '安徽', value: randomValue() },
-    //     { name: '山东', value: randomValue() },
-    //     { name: '新疆', value: randomValue() },
-    //     { name: '江苏', value: randomValue() },
-    //     { name: '浙江', value: randomValue() },
-    //     { name: '江西', value: randomValue() },
-    //     { name: '湖北', value: randomValue() },
-    //     { name: '广西', value: randomValue() },
-    //     { name: '甘肃', value: randomValue() },
-    //     { name: '山西', value: randomValue() },
-    //     { name: '内蒙古', value: randomValue() },
-    //     { name: '陕西', value: randomValue() },
-    //     { name: '吉林', value: randomValue() },
-    //     { name: '福建', value: randomValue() },
-    //     { name: '贵州', value: randomValue() },
-    //     { name: '广东', value: randomValue() },
-    //     { name: '青海', value: randomValue() },
-    //     { name: '西藏', value: randomValue() },
-    //     { name: '四川', value: randomValue() },
-    //     { name: '宁夏', value: randomValue() },
-    //     { name: '海南', value: randomValue() },
-    //     { name: '台湾', value: randomValue() },
-    //     { name: '香港', value: randomValue() },
-    //     { name: '澳门', value: randomValue() }
-    // ];
 
+    var myChart03 = echarts.init(document.getElementById('echarts03'));
     option = {
         title: {
             text: '全国行程情况',
-            x: 'center'
+            x: 'center',
         },
         // 鼠标悬停展示数据
         tooltip: {
             trigger: 'item',
             formatter: function (params) {
-                if(isNaN(params.value))
+                if (isNaN(params.value))
                     return params.name + ":" + "0";
                 else
                     return params.name + ":" + params.value;
@@ -452,7 +428,7 @@
         geo: {
             map: 'china', //使用registerMap属性注册的名字
             roam: false, //是否开启缩放，默认不开启
-            zoom: 1.25, //当前缩放比例
+            zoom: 1.2, //当前缩放比例
             // label可以设置图形上的文本标签
             label: {
                 // normal为正常状态下
@@ -487,7 +463,7 @@
         // visualMap由dataRange转换而来
         visualMap: [{
             min: 0,
-            max: 100,
+            max: maxValue,
             realtime: true,
             calculable: true,
             text: ['高', '低'],
@@ -503,7 +479,7 @@
 </script>
 <!-- 各省地图 -->
 <script type="text/javascript">
-    function showCity(city,data) {
+    function showCity(city, data) {
         document.getElementById("province").innerHTML = "当前位置：中国" + " -> " + city;
         // var data = [
         //     // { name: "德州市", value: randomValue() },
@@ -524,45 +500,48 @@
         //     { name: "烟台市", value: randomValue() },
         // ];
         // https://geo.datav.aliyun.com/areas_v3/bound/220000_full.json
-        var s = [{ name: '山东', value: '370000' },
-            { name: '黑龙江', value: '230000' },
-            { name: '内蒙古', value: '150000' },
-            { name: '吉林', value: '220000' },
-            { name: '辽宁', value: '210000' },
-            { name: '河北', value: '130000' },
-            { name: '北京', value: '110000' },
-            { name: '天津', value: '120000' },
-            { name: '山西', value: '140000' },
-            { name: '江苏', value: '320000' },
-            { name: '浙江', value: '330000' },
-            { name: '安徽', value: '340000' },
-            { name: '福建', value: '350000' },
-            { name: '江西', value: '360000' },
-            { name: '河南', value: '410000' },
-            { name: '湖北', value: '420000' },
-            { name: '湖南', value: '430000' },
-            { name: '广东', value: '440000' },
-            { name: '海南', value: '460000' },
-            { name: '四川', value: '510000' },
-            { name: '贵州', value: '520000' },
-            { name: '云南', value: '530000' },
-            { name: '陕西', value: '610000' },
-            { name: '甘肃', value: '620000' },
-            { name: '青海', value: '630000' },
-            { name: '广西', value: '450000' },
-            { name: '西藏', value: '540000' },
-            { name: '宁夏', value: '640000' },
-            { name: '新疆', value: '650000' },
-            { name: '上海', value: '310000' },
-            { name: '重庆', value: '500000' },
-            { name: '香港', value: '810000' },
-            { name: '澳门', value: '820000' },
-            { name: '台湾', value: '710000' },
+        var s = [{name: '山东', value: '370000'},
+            {name: '黑龙江', value: '230000'},
+            {name: '内蒙古', value: '150000'},
+            {name: '吉林', value: '220000'},
+            {name: '辽宁', value: '210000'},
+            {name: '河北', value: '130000'},
+            {name: '北京', value: '110000'},
+            {name: '天津', value: '120000'},
+            {name: '山西', value: '140000'},
+            {name: '江苏', value: '320000'},
+            {name: '浙江', value: '330000'},
+            {name: '安徽', value: '340000'},
+            {name: '福建', value: '350000'},
+            {name: '江西', value: '360000'},
+            {name: '河南', value: '410000'},
+            {name: '湖北', value: '420000'},
+            {name: '湖南', value: '430000'},
+            {name: '广东', value: '440000'},
+            {name: '海南', value: '460000'},
+            {name: '四川', value: '510000'},
+            {name: '贵州', value: '520000'},
+            {name: '云南', value: '530000'},
+            {name: '陕西', value: '610000'},
+            {name: '甘肃', value: '620000'},
+            {name: '青海', value: '630000'},
+            {name: '广西', value: '450000'},
+            {name: '西藏', value: '540000'},
+            {name: '宁夏', value: '640000'},
+            {name: '新疆', value: '650000'},
+            {name: '上海', value: '310000'},
+            {name: '重庆', value: '500000'},
+            {name: '香港', value: '810000'},
+            {name: '澳门', value: '820000'},
+            {name: '台湾', value: '710000'},
 
         ];
         var adcode;
         for (var i = 0; i < s.length; i++) {
-            if (s[i].name == city) { adcode = s[i].value; break; }
+            if (s[i].name == city) {
+                adcode = s[i].value;
+                break;
+            }
         }
         $.get("https://geo.datav.aliyun.com/areas_v3/bound/" + adcode + "_full.json", function (provinceJson) {
             echarts.registerMap(city, provinceJson);
@@ -576,7 +555,7 @@
                 tooltip: {
                     trigger: 'item',
                     formatter: function (params) {
-                        if(isNaN(params.value))
+                        if (isNaN(params.value))
                             return params.name + ":" + "0";
                         else
                             return params.name + ":" + params.value;
@@ -635,6 +614,7 @@
             $(window).resize(mychart.resize);
         });
     }
+
     myChart03.on('click', function (params) {
         selectedCity = params.name;
         var t1 = '[[${t1}]]';
@@ -642,18 +622,18 @@
         console.log(t1)
         console.log(t2)
         $.ajax({
-            url:"/list/visualization/query/citydata",
-            type:"POST",
-            data:{'selectedCity':selectedCity,'date1':t1,'date2':t2},
-            success:function (jsonData){
+            url: "/list/visualization/query/citydata",
+            type: "POST",
+            data: {'selectedCity': selectedCity, 'date1': t1, 'date2': t2},
+            success: function (jsonData) {
                 var cityJson = JSON.parse(jsonData);
-                var data=[];
-                for(var key in cityJson){
-                    data.push({name:key,value:cityJson[key]});
+                var data = [];
+                for (var key in cityJson) {
+                    data.push({name: key, value: cityJson[key]});
                 }
                 console.log(data)
                 f1();
-                showCity(selectedCity,data);
+                showCity(selectedCity, data);
             },
         })
     });

@@ -35,14 +35,15 @@ public class UserController3 {
     @RequestMapping("/list/historyData/{dep}")
     public String toHistoryPage(@PathVariable("dep")String dep,Model model){
         model.addAttribute("adminId",dep);
-
         QueryWrapper<Department> wrapper1 = new QueryWrapper<>();
         wrapper1.eq("abbreviation",dep);
         Department department = departmentMapper.selectOne(wrapper1);
         model.addAttribute("department",department);
-
         String nickName = departmentMapper.getNickNameByDepartmentName(dep);
         model.addAttribute("nickName",nickName);
+
+
+
 
         return "historyList";
     }
@@ -118,26 +119,42 @@ public class UserController3 {
         return res;
     }
 
-    @RequestMapping("/list/visualization/{dep}")
-    public String toVisualization(@PathVariable("dep")String dep,Model model){
-        model.addAttribute("adminId",dep);
 
-        QueryWrapper<Department> wrapper1 = new QueryWrapper<>();
-        wrapper1.eq("abbreviation",dep);
-        Department department = departmentMapper.selectOne(wrapper1);
-        model.addAttribute("department",department);
-
-        String nickName = departmentMapper.getNickNameByDepartmentName(dep);
-        model.addAttribute("nickName",nickName);
-
-        return "visualization";
+    /*
+     * 函数名：getUserFun1
+     * 作用：在数据库返回的所有用户中找出符合时间条件的用户
+     * 规则：今天16点-明天16点 为今天
+     * */
+    public List<String> getUsersFun1(String date1, String date2) throws ParseException {
+        // 转换时间格式_将前端传来的yyyy-MM-dd格式的日期 转换成yyyy-MM-dd HH:mm:ss格式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date t1 = sdf.parse(date1);
+        Date t2 = sdf.parse(date2);
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        calendar1.setTime(t1);
+        calendar2.setTime(t2);
+        long timeInMillis1 = calendar1.getTimeInMillis();
+        long timeInMillis2 = calendar2.getTimeInMillis();
+        // 今天的00:00开始加40个小时即为明天的16:00
+        timeInMillis1+=16*60*60*1000;
+        timeInMillis2+=40*60*60*1000;
+        calendar1.setTimeInMillis(timeInMillis1);
+        calendar2.setTimeInMillis(timeInMillis2);
+        t1 = calendar1.getTime();
+        t2 = calendar2.getTime();
+        String newDate1 = sdff.format(t1);
+        String newDate2 = sdff.format(t2);
+        List<String> listRes = new ArrayList<>();
+        listRes.add(newDate1);
+        listRes.add(newDate2);
+        return listRes;
     }
 
-    @RequestMapping("/list/visualization/query/{dep}")
-    public String showVisualization(
-            Model model, @RequestParam("date1") String date1, @RequestParam("date2") String date2,
-            @PathVariable("dep")String dep) throws ParseException {
 
+    @RequestMapping("/list/visualization/{dep}")
+    public String toVisualization(@PathVariable("dep")String dep,Model model) throws ParseException {
         model.addAttribute("adminId",dep);
 
         QueryWrapper<Department> wrapper1 = new QueryWrapper<>();
@@ -148,33 +165,38 @@ public class UserController3 {
         String nickName = departmentMapper.getNickNameByDepartmentName(dep);
         model.addAttribute("nickName",nickName);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        Date time22 = calendar.getTime();
+        long timeInMillis = calendar.getTimeInMillis();
+        timeInMillis-=14*24*60*60*1000;
+        calendar.setTimeInMillis(timeInMillis);
+        Date time11 = calendar.getTime();
+        String date2 = sdf.format(time22);
+        String date1 = sdf.format(time11);
+
+        // 设置当前选中的时间
         // 设置当前选中的时间
         model.addAttribute("t1",date1);
         model.addAttribute("t2",date2);
-
         // 查询符合时间段中的所有用户提交
         List<User> res =  userMapper.selectList(new QueryWrapper<User>().eq("department_id",dep));
-
-        // 转换时间 timestamp -> date -> string
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        List<User> users = new ArrayList();
+        // 转换时间格式
+        List<String> newDates = getUsersFun1(date1,date2);
+        String newDate1 = newDates.get(0);
+        String newDate2 = newDates.get(1);
+        // 求出符合时间的要求的用户
+        List<User> users = new ArrayList<>();
         for (User user : res) {
-            long t = Long.valueOf(user.getTimestamp());
-            String date = sdf.format(new Date(t));
-            user.setDayTime(date);
-            // 时间比对
-            String time = user.getDayTime();
-            if(date1.compareTo(time)<0&&date2.compareTo(time)>0){
+            String dayTime = user.getDayTime();
+            if(dayTime.compareTo(newDate1)>=0&&dayTime.compareTo(newDate2)<=0)
                 users.add(user);
-            }
         }
         // 提示用户选中的时间段没有数据
-        if(users.isEmpty()){
-            model.addAttribute("msg","这个时间段没有数据");
-        }
-        else{
-            model.addAttribute("msg","");
-        }
+        if(users.isEmpty()) model.addAttribute("msg","这个时间段没有数据");
+        else model.addAttribute("msg","");
+
         // 柱状图传值
         int arr[] = new int[24];
         SimpleDateFormat sdf1 = new SimpleDateFormat("HH");
@@ -199,13 +221,15 @@ public class UserController3 {
         for(long i = time1;i<=time2;i+=24*60*60*1000){
             dates.add(sdf.format(new Date(i)));
         }
-
+        // 利用HashMap计算所有符合条件提交次数
         Map<String,Integer> map = new HashMap();
-        for (User user : users) {
-            if(map.containsKey(user.getDayTime())){
-                map.put(user.getDayTime(),map.get(user.getDayTime())+1);
+        for (User user : res) {
+            String key = user.getDayTime();
+            key = sdf.format(sdff.parse(key));
+            if(map.containsKey(key)){
+                map.put(key,map.get(key)+1);
             }
-            else map.put(user.getDayTime(),1);
+            else map.put(key,1);
         }
         int datesArr[] = new int[dates.size()];
         int k = 0;
@@ -242,6 +266,127 @@ public class UserController3 {
                 else chinaMap.put(s, 1);
             }
         }
+        int maxValue = 1;
+        for(String s:chinaMap.keySet()){
+            maxValue=Math.max(maxValue,chinaMap.get(s));
+        }
+        model.addAttribute("maxValue",maxValue+100);
+        Object obj = JSONArray.toJSON(chinaMap);
+        String chinaJson = obj.toString();
+        model.addAttribute("chinaJson",chinaJson);
+        return "visualization";
+    }
+
+    @RequestMapping("/list/visualization/query/{dep}")
+    public String showVisualization(
+            Model model, @RequestParam("date1") String date1, @RequestParam("date2") String date2,
+            @PathVariable("dep")String dep) throws ParseException {
+
+        model.addAttribute("adminId",dep);
+        QueryWrapper<Department> wrapper1 = new QueryWrapper<>();
+        wrapper1.eq("abbreviation",dep);
+        Department department = departmentMapper.selectOne(wrapper1);
+        model.addAttribute("department",department);
+        String nickName = departmentMapper.getNickNameByDepartmentName(dep);
+        model.addAttribute("nickName",nickName);
+
+        // 设置当前选中的时间
+        model.addAttribute("t1",date1);
+        model.addAttribute("t2",date2);
+        // 查询符合时间段中的所有用户提交
+        List<User> res =  userMapper.selectList(new QueryWrapper<User>().eq("department_id",dep));
+        // 转换时间格式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // 转换时间格式
+        List<String> newDates = getUsersFun1(date1,date2);
+        String newDate1 = newDates.get(0);
+        String newDate2 = newDates.get(1);
+        // 求出符合时间的要求的用户
+        List<User> users = new ArrayList<>();
+        for (User user : res) {
+            String dayTime = user.getDayTime();
+            if(dayTime.compareTo(newDate1)>=0&&dayTime.compareTo(newDate2)<=0)
+                users.add(user);
+        }
+        // 提示用户选中的时间段没有数据
+        if(users.isEmpty()) model.addAttribute("msg","这个时间段没有数据");
+        else model.addAttribute("msg","");
+
+        // 柱状图传值
+        int arr[] = new int[24];
+        SimpleDateFormat sdf1 = new SimpleDateFormat("HH");
+        for (User user : users) {
+            long t = Long.valueOf(user.getTimestamp());
+            String date = sdf1.format(new Date(t));
+            int x = Integer.valueOf(date);
+            arr[x]++;
+        }
+        String title1Str = date1+"至"+date2+"各时间段提交人次展示";
+        model.addAttribute("title1Str",title1Str);
+        model.addAttribute("arr",arr);
+
+        // 折线图传值 使用HashMap统计每一天的提交次数
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(sdf.parse(date1));
+        long time1 = c1.getTimeInMillis();
+        Calendar c2= Calendar.getInstance();
+        c2.setTime(sdf.parse(date2));
+        long time2 = c2.getTimeInMillis();
+        List<String> dates = new ArrayList<>();
+        for(long i = time1;i<=time2;i+=24*60*60*1000){
+            dates.add(sdf.format(new Date(i)));
+        }
+        // 利用HashMap计算所有符合条件提交次数
+        Map<String,Integer> map = new HashMap();
+        for (User user : res) {
+            String key = user.getDayTime();
+            key = sdf.format(sdff.parse(key));
+            if(map.containsKey(key)){
+                map.put(key,map.get(key)+1);
+            }
+            else map.put(key,1);
+        }
+        int datesArr[] = new int[dates.size()];
+        int k = 0;
+        for (String date : dates) {
+            if(map.containsKey(date))datesArr[k++]=map.get(date);
+            else datesArr[k++] = 0;
+        }
+        model.addAttribute("dates",dates);
+        model.addAttribute("datesArr",datesArr);
+        String title2Str = date1+"至"+date2+"提交人次变化情况";
+        model.addAttribute("title2Str",title2Str);
+
+        // 地图
+        // 存储每个省的人次——用于中国地图传值
+        Map<String, Integer> chinaMap = new HashMap();
+        for (User user : users) {
+            String target = user.getItineraryInfo();
+            target = target.trim();
+            // 用正则提取每个省 并放入map中
+            Pattern pattern1 = Pattern.compile("(^|,)(.*?)(市|省|区).*?");
+            Matcher matcher1 = pattern1.matcher(target);
+            while (matcher1.find()) {
+                String startArr[] = {"新疆维吾尔自治", "西藏自治", "宁夏回族自治", "广西壮族自治", "香港特别行政", "澳门特别行政"};
+                String endArr[] = {"新疆", "西藏", "宁夏", "广西", "香港", "澳门"};
+                String s = matcher1.group(2);
+                for (int i = 0; i < endArr.length; i++) {
+                    if (s.equals(startArr[i])) {
+                        s = endArr[i];
+                        break;
+                    }
+                }
+                if (chinaMap.containsKey(s))
+                    chinaMap.put(s, chinaMap.get(s) + 1);
+                else chinaMap.put(s, 1);
+            }
+        }
+        int maxValue = 1;
+        for(String s:chinaMap.keySet()){
+            maxValue=Math.max(maxValue,chinaMap.get(s));
+        }
+        model.addAttribute("maxValue",maxValue+100);
         Object obj = JSONArray.toJSON(chinaMap);
         String chinaJson = obj.toString();
         model.addAttribute("chinaJson",chinaJson);
