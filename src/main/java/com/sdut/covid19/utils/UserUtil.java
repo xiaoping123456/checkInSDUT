@@ -64,10 +64,6 @@ public class UserUtil {
         List<String> itineraryList = Arrays.asList(finalPlace.split(","));
         List<String> cityList = new ArrayList<>();
 
-        if (info.contains("*")){
-            return cityList;
-        }
-
         itineraryList.forEach(place->{
 
             if (place.equals("山东省博市")||place.equals("山东省淄博")){
